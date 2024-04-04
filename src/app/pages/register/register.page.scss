@@ -1,0 +1,35 @@
+ion-card {
+    width: 100%;
+    max-width: 800px;
+    margin: 2rem auto;
+}
+    
+    form {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 1rem;   
+        
+        span, p {
+            margin-top: .5rem;
+            margin: 0;
+            padding: 0;
+            text-align: end;
+            color: red;
+            font-size: 0.8rem;
+        }
+    }
+
+
+
+
+ion-toolbar {
+    --background: linear-gradient(196deg, rgb(29, 209, 206) 0%, rgb(3, 47, 54) 100% );
+    --color: rgb(237, 237, 237);
+}
+
+ion-button {
+    --background: rgb(5, 165, 165);
+    margin-top: 1rem;
+}
+  

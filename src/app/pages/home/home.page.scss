@@ -1,0 +1,72 @@
+ion-content {
+  > :first-child {
+    padding-top: 2rem;
+  }
+
+  ion-list {
+    padding: 0 .5rem;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  div {
+    display: flex;
+    margin: 8px auto;
+    padding: .5rem;
+    height: 72px;
+    gap: 1rem;
+
+    ion-input {
+      margin-top: 16px;
+      margin-top: 0;
+      display: flex;
+      border-bottom: 1px solid gray;
+      font-size: 1.2rem;
+    }
+
+    ion-button {
+      width: 30%;
+      margin: 0;
+
+      ion-icon {
+        font-size: 2rem;
+      }
+    }
+  }
+
+  ion-item {
+    cursor: pointer;
+    font-size: .9rem;
+  }
+
+  ion-list-header {
+    margin: 0;
+
+    ion-label {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+  }
+}
+
+ion-toolbar {
+  --background: linear-gradient(196deg, rgb(29, 209, 206) 0%, rgb(3, 47, 54) 100%);
+  --color: rgb(237, 237, 237);
+}
+
+ion-button {
+  --background: rgb(5, 165, 165);
+  margin-top: 1rem;
+}
+
+ion-card {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+
+  ion-card-content {
+    padding: .5rem;
+    padding-bottom: 1rem;
+  }
+}

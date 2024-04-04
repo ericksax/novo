@@ -1,0 +1,30 @@
+<ion-content [fullscreen]="true">
+  <div id="container">
+    <strong>Delivery<span class="and">&</span>Check</strong>
+    <section>
+      <img src="../../../assets/entrega.svg" alt="logo com traços de uma entrega">
+      <form [formGroup]="loginForm">
+        <div class="input-box">
+          <ion-item>
+            <ion-input labelPlacement="stacked" placeholder="CNPJ/CPF" type="text" formControlName="login">
+            </ion-input>
+          </ion-item>
+          <p class="input-message-error" *ngIf="loginForm.get('login')?.errors && loginForm.get('login')?.dirty">
+            {{loginForm.get('login')?.errors?.['minlength'] ? 'CPF/CNPJ inválido' : 'máximo 14 caracteres'}}
+          </p>
+          <ion-item>
+            <ion-input labelPlacement="stacked" placeholder="SENHA" type="password"  formControlName="password">
+              <ion-button fill="clear" slot="end" aria-label="Show/hide">
+                <ion-icon slot="icon-only" name="eye" aria-hidden="true"></ion-icon>
+              </ion-button>
+            </ion-input>
+          </ion-item>
+          <p class="input-message-error" *ngIf="loginForm.get('password')?.errors && loginForm.get('password')?.dirty">
+            {{loginForm.get('login')?.errors?.['minlength'] ? 'minimo 8 caracteres' : 'máximo 8 caracteres'}}
+          </p>
+          <ion-button (click)="submit()" size="large" color="success" expand="full" [disabled]="loginForm.invalid" type="submit">Entrar</ion-button>
+        </div>
+      </form>
+    </section>
+  </div>
+</ion-content>
