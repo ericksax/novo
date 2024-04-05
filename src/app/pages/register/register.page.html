@@ -1,9 +1,9 @@
-<ion-header [translucent]="true" >
+<ion-header [translucent]="true">
   <ion-toolbar>
-      <ion-title class="ion-align-self-end">Registrar usuário</ion-title>
-      <ion-buttons slot="end" class="ion-padding-end">
-        <ion-back-button defaultHref="/home"></ion-back-button>
-      </ion-buttons>
+    <ion-title class="ion-align-self-end">Registrar usuário</ion-title>
+    <ion-buttons slot="end" class="ion-padding-end">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -14,44 +14,73 @@
     </ion-toolbar>
     <ion-nav [root]="component"></ion-nav>
   </ion-header>
-  <div class="wrapper">
+
   <ion-card>
     <ion-card-content>
-    <form [formGroup]="registerForm">
-      <ion-item>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit($event)">
+        <ion-item>
           <ion-label position="floating">Nome:</ion-label>
-          <ion-input formControlName="name"/>
+          <ion-input formControlName="name" />
         </ion-item>
-        <p>{{registerForm.get('formControlName')?.errors?.['minlength'] ? 'Nome inválido' : ''}}</p>
-      <ion-item>
+        <p>
+          {{registerForm.get('formControlName')?.errors?.['minlength'] ? 'Nome
+          inválido' : ''}}
+        </p>
+        <ion-item>
           <ion-label position="floating">CNPJ/CPF:</ion-label>
-          <ion-input formControlName="login" maxlength="14" />
+          <ion-input
+            formControlName="login"
+            type="text"
+            [(ngModel)]="quantity"
+            [maskito]="maskitoOptions"
+            [maskitoElement]="predicate"
+            (ionInput)="onLoginChange($event)"
+          />
         </ion-item>
-        <p>{{registerForm.get('login')?.errors?.['minlength'] ? 'CPF/CNPJ inválido' : ''}}</p>
-      <ion-item>
-       
+        <p>
+          {{registerForm.get('login')?.errors?.['minlength'] ? 'CPF/CNPJ
+          inválido' : ''}}
+        </p>
+        <ion-item>
           <ion-label position="floating">Telefone:</ion-label>
-          <ion-input formControlName="phone" maxlength="11"/>
-          
+          <ion-input
+            formControlName="phone"
+            [maskito]="maskitoPhoneOptions"
+            [maskitoElement]="predicate"
+          />
         </ion-item>
-        <p>{{registerForm.get('phone')?.errors?.['minlength'] ? 'Telefone inválido' : ''}}</p>
-      <ion-item>
+        <p>
+          {{registerForm.get('phone')?.errors?.['minlength'] ? 'Telefone
+          inválido' : ''}}
+        </p>
+        <ion-item>
           <ion-label position="floating">Senha:</ion-label>
-          <ion-input type="password" formControlName="password"/>
+          <ion-input type="password" formControlName="password" maxlength="8" />
         </ion-item>
-        <p>{{registerForm.get('password')?.errors?.['minlength'] ? 'minimo 8 caracteres' : ''}}</p>
-      <ion-item>
-     
+        <p>
+          {{registerForm.get('password')?.errors?.['minlength'] ? 'minimo 8
+          caracteres' : ''}}
+        </p>
+        <ion-item>
           <ion-label position="floating">Confirmar senha:</ion-label>
-          <ion-input type="password" formControlName="confirmPassword"/>
-       
+          <ion-input
+            type="password"
+            formControlName="confirmPassword"
+            maxlenght="8"
+          />
         </ion-item>
-        <span>{{registerForm.get('confirmPassword')?.errors?.['minlength'] ? 'minimo 8 caracteres' : ''}}</span>
-        <p>{{registerForm.get('confirmPassword')?.errors?.['passwordMatch'] && 'As senhas devem ser iguais'}}</p>
-      <ion-button [disabled]="!registerForm.valid">Registrar</ion-button>
-    </form>
-  </ion-card-content>
+        <span
+          >{{registerForm.get('confirmPassword')?.errors?.['minlength'] ?
+          'minimo 8 caracteres' : ''}}</span
+        >
+        <p>
+          {{registerForm.get('confirmPassword')?.errors?.['passwordMatch'] &&
+          'As senhas devem ser iguais'}}
+        </p>
+        <ion-button [disabled]="!registerForm.valid" type="submit"
+          >Registrar</ion-button
+        >
+      </form>
+    </ion-card-content>
   </ion-card>
-</div>
- 
 </ion-content>

@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { AlertController } from '@ionic/angular';
+import { OverlayEventDetail } from '@ionic/core/components';
 import {
+  IonModal,
   IonHeader,
   IonToolbar,
   IonTitle,
@@ -21,6 +23,9 @@ import {
   IonCard,
   IonCardContent,
   IonCol,
+  IonSelectOption,
+  IonSelect
+
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -47,12 +52,18 @@ import {
     IonCard,
     IonCardContent,
     IonCol,
+    IonModal,
+    IonSelect,
+    IonSelectOption
   ],
 })
 export class HomePage implements OnInit{
   isSupported = false;
   barcodes: Barcode[] = [];
   valueInput = '';
+  @ViewChild(IonModal)
+  modal!: IonModal;
+  message = 'This modal example uses triggers to automatically open a modal when the button is clicked.';
 
   constructor(private route: Router, private alertController: AlertController) {}
 
@@ -99,5 +110,20 @@ export class HomePage implements OnInit{
       buttons: ['OK'],
     });
     await alert.present();
+  }
+
+  cancel() {
+    this.modal.dismiss(null, 'cancel');
+  }
+
+  confirm() {
+    this.modal.dismiss( 'confirm');
+  }
+
+  onWillDismiss(event: Event) {
+    const ev = event as CustomEvent<OverlayEventDetail<string>>;
+    if (ev.detail.role === 'confirm') {
+      this.message = `Hello, ${ev.detail.data}!`;
+    }
   }
 }

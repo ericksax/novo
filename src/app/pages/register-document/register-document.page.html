@@ -13,79 +13,77 @@
       <ion-title size="large">Cadastro de Usuários</ion-title>
     </ion-toolbar>
   </ion-header>
-  <div class="wrapper">
-    <form [formGroup]="formDocument" (ngSubmit)="onSubmit()">
-      <ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <ion-card-content [formGroup]="formDocument" (ngSubmit)="onSubmit()">
+        <ion-item>
+          <ion-label position="floating">Tipo</ion-label>
+          <ion-input formControlName="name"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Destinatário</ion-label>
+          <ion-input formControlName="email"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">cpf/cnpj</ion-label>
+          <ion-input formControlName="login"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Telefone</ion-label>
+          <ion-input formControlName="telefone"></ion-input>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+        <ion-list-header>
+          <ion-label>Endereço recebedor</ion-label>
+        </ion-list-header>
+        <ion-card>
         <ion-card-content>
-          <ion-list>
+        <ion-row>
+          <ion-col>
             <ion-item>
-              <ion-label position="floating">Tipo</ion-label>
-              <ion-input formControlName="name"></ion-input>
+              <ion-label position="floating">Rua</ion-label>
+              <ion-input formControlName="telefone"></ion-input>
             </ion-item>
+          </ion-col>
+          <ion-col size="12" size-sm="2">
             <ion-item>
-              <ion-label position="floating">Destinatário</ion-label>
-              <ion-input formControlName="email"></ion-input>
+              <ion-label position="floating">N°</ion-label>
+              <ion-input formControlName="telefone"></ion-input>
             </ion-item>
-            <ion-item>
-              <ion-label position="floating">cpf/cnpj</ion-label>
-              <ion-input formControlName="login"></ion-input>
-            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12" size-sm="6">
             <ion-item>
               <ion-label position="floating">Telefone</ion-label>
               <ion-input formControlName="telefone"></ion-input>
             </ion-item>
-            <ion-list-header>
-              <ion-label>Endereço recebedor</ion-label>
-            </ion-list-header>
-            <ion-row>
-              <ion-col>
-                <ion-item>
-                  <ion-label position="floating">Rua</ion-label>
-                  <ion-input formControlName="telefone"></ion-input>
-                </ion-item>
-              </ion-col>
-              <ion-col size="12" size-sm="2">
-                <ion-item>
-                  <ion-label position="floating">N°</ion-label>
-                  <ion-input formControlName="telefone"></ion-input>
-                </ion-item>
-              </ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col size="12" size-sm="6">
-                <ion-item>
-                  <ion-label position="floating">Telefone</ion-label>
-                  <ion-input formControlName="telefone"></ion-input>
-                </ion-item>
-              </ion-col>
-          
-              <ion-col>
-                <ion-item>
-                  <ion-label position="floating">CEP</ion-label>
-                  <ion-input formControlName="telefone"></ion-input>
-                </ion-item>
-              </ion-col>  
-            </ion-row>
-            <ion-row>
-              <ion-col size="12" size-sm="10">
-                <ion-item>
-                  <ion-label position="floating">Cidade</ion-label>
-                  <ion-input formControlName="telefone"></ion-input>
-                </ion-item>
-              </ion-col>
-              <ion-col>
-                <ion-item>
-                  <ion-label position="floating">UF</ion-label>
-                  <ion-input formControlName="telefone"></ion-input>
-                </ion-item>
-              </ion-col>
-            </ion-row>
-
-          
-              <ion-button expand="block" type="submit">Registrar</ion-button>
-          </ion-list>
-        </ion-card-content>
-      </ion-card>
-    </form>
-  </div>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating">CEP</ion-label>
+              <ion-input formControlName="telefone"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12" size-sm="10">
+            <ion-item>
+              <ion-label position="floating">Cidade</ion-label>
+              <ion-input formControlName="telefone"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating">UF</ion-label>
+              <ion-input formControlName="telefone"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-button expand="block" type="submit">Registrar</ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

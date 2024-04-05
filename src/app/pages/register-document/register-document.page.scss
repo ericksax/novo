@@ -1,12 +1,11 @@
 ion-card {
   width: 100%;
   max-width: 800px;
-  margin: 2rem auto;
+  margin: 0 auto;
 }
 
-
 ion-toolbar {
-  --background: linear-gradient(196deg, rgb(29, 209, 206) 0%, rgb(3, 47, 54) 100% );
+  --background: linear-gradient(196deg, rgb(29, 209, 206) 0%, rgb(3, 47, 54) 100%);
   --color: rgb(237, 237, 237);
 }
 
@@ -16,13 +15,12 @@ ion-button {
 }
 
 ion-list-header {
-  margin: .5rem 0 ;
-
+  margin: 0.5rem 0;
   ion-label {
-      margin-top: 1rem;
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: rgb(2, 62, 57);
-      border-bottom: 1px solid rgb(2, 62, 57);
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: rgb(2, 62, 57);
+    border-bottom: 1px solid rgb(2, 62, 57);
   }
 }
