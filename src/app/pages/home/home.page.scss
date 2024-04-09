@@ -24,15 +24,6 @@ ion-content {
       border-bottom: 1px solid gray;
       font-size: 1.2rem;
     }
-
-    ion-button {
-      width: 30%;
-      margin: 0;
-
-      ion-icon {
-        font-size: 2rem;
-      }
-    }
   }
 
   ion-item {
@@ -69,4 +60,10 @@ ion-card {
     padding: .5rem;
     padding-bottom: 1rem;
   }
+}
+
+ion-modal ion-img {
+  margin-top: 1rem;
+  width: 200px;
+  height: 48px;
 }

@@ -22,10 +22,8 @@ export const routes: Routes = [
       import('./pages/register/register.page').then((m) => m.RegisterPage),
   },
   {
-    path: 'register-document',
+    path: 'document',
     loadComponent: () =>
-      import('./pages/register-document/register-document.page').then(
-        (m) => m.RegisterDocumentPage
-      ),
-  },
+      import('./pages/document/document.page').then((m) => m.DocumentPage),
+  }
 ];

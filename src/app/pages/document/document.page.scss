@@ -1,7 +1,7 @@
 ion-card {
   width: 100%;
   max-width: 800px;
-  margin: 0 auto;
+  margin: 2rem auto;
 }
 
 ion-toolbar {
@@ -15,7 +15,10 @@ ion-button {
 }
 
 ion-list-header {
-  margin: 0.5rem 0;
+  margin: 0.5rem auto;
+  width: 100%;
+  max-width: 800px;
+
   ion-label {
     margin-top: 1rem;
     font-size: 1.2rem;

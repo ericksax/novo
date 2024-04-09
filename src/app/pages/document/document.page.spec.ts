@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RegisterDocumentPage } from './register-document.page';
+import { DocumentPage } from './document.page';
 
 describe('RegisterDocumentPage', () => {
-  let component: RegisterDocumentPage;
-  let fixture: ComponentFixture<RegisterDocumentPage>;
+  let component: DocumentPage;
+  let fixture: ComponentFixture<DocumentPage>;
 
   beforeEach(async(() => {
-    fixture = TestBed.createComponent(RegisterDocumentPage);
+    fixture = TestBed.createComponent(DocumentPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
