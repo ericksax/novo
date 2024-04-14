@@ -2,8 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { AlertController } from '@ionic/angular';
-import { OverlayEventDetail } from '@ionic/core/components';
-import { Camera, CameraResultType } from '@capacitor/camera';
+import { ModalComponent } from '../../components/modal/modal.component';
 import {
   IonModal,
   IonHeader,
@@ -27,6 +26,7 @@ import {
   IonSelectOption,
   IonSelect,
   IonImg,
+
 
 } from '@ionic/angular/standalone';
 
@@ -58,6 +58,7 @@ import {
     IonSelect,
     IonSelectOption,
     IonImg,
+    ModalComponent
 
   ],
 })
@@ -65,17 +66,14 @@ export class HomePage implements OnInit {
   isSupported = false;
   barcodes: Barcode[] = [];
   valueInput = '';
-  @ViewChild(IonModal)
-  modal!: IonModal;
-  message =
-    'This modal example uses triggers to automatically open a modal when the button is clicked.';
-  imageUrl!: string;
-  image: boolean = true
+
 
   constructor(
     private route: Router,
     private alertController: AlertController
-  ) {}
+  ) {
+
+  }
 
   goToLogin() {
     this.route.navigate(['/login']);
@@ -122,34 +120,5 @@ export class HomePage implements OnInit {
     await alert.present();
   }
 
-  cancel() {
-    this.modal.dismiss(null, 'cancel');
-  }
 
-  confirm() {
-    this.modal.dismiss('confirm');
-  }
-
-  onWillDismiss(event: Event) {
-    const ev = event as CustomEvent<OverlayEventDetail<string>>;
-    if (ev.detail.role === 'confirm') {
-      this.message = `Hello, ${ev.detail.data}!`;
-    }
-  }
-
-  takePicture = async () => {
-    const image = await Camera.getPhoto({
-      quality: 90,
-      allowEditing: true,
-      resultType: CameraResultType.Uri,
-    });
-
-    // image.webPath will contain a path that can be set as an image src.
-    // You can access the original file using image.path, which can be
-    // passed to the Filesystem API to read the raw data of the image,
-    // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
-    this.imageUrl = image.webPath!;
-
-    // Can be set to the src of an image now
-  };
 }
