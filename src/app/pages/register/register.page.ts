@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { HomePage } from '../home/home.page';
 import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 import { MaskitoDirective} from '@maskito/angular';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -20,7 +21,7 @@ export class RegisterPage implements OnInit {
   maskitoOptions!: MaskitoOptions
   component = HomePage
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private userService: UserService) {
    }
 
    ngOnInit() {
@@ -65,9 +66,21 @@ export class RegisterPage implements OnInit {
   }
 
   onSubmit(event: any) {
-    // TODO -> enviar dados para o backend - gravação de Usuários(Motorista)
     event.preventDefault();
-    console.log(this.registerForm.value)
+    try {
+      this.userService.create({
+        name: this.registerForm.value.name,
+        login: this.registerForm.value.login,
+        password: this.registerForm.value.password,
+        phone: this.registerForm.value.phone
+      }).subscribe(
+        result => console.log(result)
+      )
+      alert('Cadastrado com sucesso')
+    } catch (error) {
+      console.log(error)
+    }
+
   };
 
   readonly predicate: MaskitoElementPredicate = async (element) => {

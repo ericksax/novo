@@ -29,11 +29,11 @@ export class LoginPage {
     })
   }
 
-  async presentToast(position: 'top' | 'middle' | 'bottom', message: string) {
+  async presentToast(position: 'top' | 'middle' | 'bottom', message: string, type: 'danger' | 'success') {
     const toast = await this.toastController.create({
       message: message,
       duration: 1500,
-      color: 'danger',
+      color: type,
       position: position,
     });
 
@@ -41,15 +41,24 @@ export class LoginPage {
   }
 
   submit() {
-    this.loginService.login(this.loginForm.value.login, this.loginForm.value.password).subscribe({
-      next: () => {
-        this.router.navigate(['home'])
-      },
-      error: () => {
-        this.router.navigate(['home'])
-        // this.presentToast('top', 'Login ou senha inválidos')
-      }
-    })
+    const {password, login} = this.loginForm.value
+
+    try {
+        this.loginService.login(login, password).subscribe(
+        result => {
+          this.loginService.setToken(result.token);
+          this.router.navigate(['/home']);
+          this.presentToast('top', 'Usuário logado com sucesso!!', 'success');
+        },
+        error => {
+          this.presentToast('top', 'Login ou senha inválidos!!', 'danger');
+          console.log(error);
+        }
+      )
+    } catch (error) {
+      this.presentToast('top', 'login ou senha inválidos!!', 'danger')
+      console.log(error)
+    }
   }
 }
 
