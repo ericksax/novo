@@ -29,6 +29,9 @@ import {
 
 
 } from '@ionic/angular/standalone';
+import { DocumentResponse } from 'src/app/types/document.type';
+import { DocumentService } from 'src/app/services/document.service';
+import { catchError, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -66,11 +69,31 @@ export class HomePage implements OnInit {
   isSupported = false;
   barcodes: Barcode[] = [];
   valueInput = '';
+  modal!: IonModal;
+
+  document: DocumentResponse = {
+    atualizado_em: '',
+    criado_em: '',
+    documento_nome: '',
+    documento_tipo: '',
+    id: '',
+    id_usuario: '',
+    recebedor_cep: '',
+    recebedor_cidade: '',
+    recebedor_documento: '',
+    recebedor_nome: '',
+    recebedor_numero: '',
+    recebedor_rua: '',
+    recebedor_telefone: '',
+    recebedor_uf: ''
+
+  } as DocumentResponse;
 
 
   constructor(
     private route: Router,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private documentService: DocumentService
   ) {
 
   }
@@ -100,10 +123,35 @@ export class HomePage implements OnInit {
       return;
     }
     const { barcodes } = await BarcodeScanner.scan();
+
     this.barcodes.push(...barcodes);
     this.valueInput = '';
     this.valueInput = barcodes[0].displayValue;
-    console.log(barcodes);
+    if (barcodes[0].displayValue) {
+      this.sendCodeToApi()
+    }
+  }
+
+  onKeyUp(event: KeyboardEvent) {
+    if (event.key === "Enter") {
+      this.sendCodeToApi()
+      console.log("Enter pressionado!");
+      // Execute a ação desejada aqui, como enviar um formulário, realizar uma busca, etc.
+    }
+  }
+
+  sendCodeToApi() {
+    this.documentService.readDocument(this.valueInput).pipe(
+      catchError(error => {
+        console.error(error)
+        throw new Error('Ocorreu um erro')
+      })
+    ).subscribe(
+      resut =>  {
+        console.log(resut)
+        this.document = resut
+      },
+    )
   }
 
   async requestPermissions(): Promise<boolean> {
@@ -118,7 +166,10 @@ export class HomePage implements OnInit {
       buttons: ['OK'],
     });
     await alert.present();
+  };
+
+  changeValueInput(event: any) {
+    this.valueInput = event.target.value;
+    console.log(this.valueInput)
   }
-
-
 }

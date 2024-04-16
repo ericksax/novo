@@ -42,7 +42,7 @@
         <ion-button expand="block" (click)="scan()"
           ><ion-icon name="barcode-outline"></ion-icon>
         </ion-button>
-        <ion-input placeholder="Chave aqui" value="{{valueInput}}" />
+        <ion-input placeholder="Chave aqui" (ionInput)="changeValueInput($event)" (keyup)="onKeyUp($event)" value="{{valueInput}}" />
       </div>
 
       <div>
@@ -64,8 +64,8 @@
               <ion-item>
                 <ion-input
                   [readonly]="true"
-                  value="Manoel"
-                  label="Nome:"
+                  value=''
+                  label="login"
                 ></ion-input>
               </ion-item>
 
@@ -73,7 +73,7 @@
                 <ion-input
                   label="CPF/CNPJ:"
                   [readonly]="true"
-                  value="999999999999"
+                  value=''
                 ></ion-input>
               </ion-item>
             </ion-col>
@@ -92,7 +92,7 @@
                 <ion-input
                   label="Nome:"
                   [readonly]="true"
-                  value="Erick de Freitas Silva"
+                  value={{document.recebedor_nome}}
                 ></ion-input>
               </ion-item>
             </ion-col>
@@ -101,7 +101,7 @@
                 <ion-input
                   label="Data:"
                   [readonly]="true"
-                  value="dd/mm/aaaa"
+                  value={{document.atualizado_em}}
                 ></ion-input>
               </ion-item>
             </ion-col>
@@ -114,7 +114,7 @@
                   label="CPF/CNPJ:"
                   type="data"
                   [readonly]="true"
-                  value="069.265.586-71"
+                  value={{document.recebedor_documento}}
                 ></ion-input>
               </ion-item>
             </ion-col>
@@ -123,7 +123,7 @@
                 <ion-input
                   label="Telefone:"
                   [readonly]="true"
-                  value="(32)999902406"
+                  value={{document.recebedor_telefone}}
                 ></ion-input>
               </ion-item>
             </ion-col>
@@ -132,11 +132,10 @@
           <ion-row>
             <ion-col size="12" size-sm="8">
               <ion-item>
-                <ion-label>Endereço:</ion-label>
                 <ion-input
                   label="Endereço:"
                   [readonly]="true"
-                  value="Rua do Contorno"
+                  value={{document.recebedor_rua}}
                 ></ion-input>
               </ion-item>
             </ion-col>
@@ -145,7 +144,7 @@
                 <ion-input
                   label="Número:"
                   [readonly]="true"
-                  value="1001"
+                  value={{document.recebedor_numero}}
                 ></ion-input>
               </ion-item>
             </ion-col>
@@ -157,7 +156,7 @@
                 <ion-input
                   label="CEP:"
                   [readonly]="true"
-                  value="06926558671"
+                  value={{document.recebedor_cep}}
                 ></ion-input>
               </ion-item>
             </ion-col>
@@ -166,13 +165,13 @@
                 <ion-input
                   label="Cidade:"
                   [readonly]="true"
-                  value="Juiz de Fora"
+                  value={{document.recebedor_cidade}}
                 ></ion-input>
               </ion-item>
             </ion-col>
             <ion-col size="12" size-sm="2">
               <ion-item>
-                <ion-input label="UF:" [readonly]="true" value="SP"></ion-input>
+                <ion-input label="UF:" [readonly]="true" value={{document.recebedor_uf}}></ion-input>
               </ion-item>
             </ion-col>
           </ion-row>
@@ -181,7 +180,7 @@
           >
         </ion-card-content>
       </ion-card>
-     <app-modal></app-modal>
+     <app-modal documentId={{document.id}}></app-modal>
     </ion-list>
   </ion-content>
 </div>

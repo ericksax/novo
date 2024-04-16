@@ -6,7 +6,8 @@ import { HomePage } from '../home/home.page';
 import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 import { MaskitoDirective} from '@maskito/angular';
 import { UserService } from 'src/app/services/user.service';
-
+import { ToastController } from '@ionic/angular';
+import { catchError } from 'rxjs';
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -21,7 +22,7 @@ export class RegisterPage implements OnInit {
   maskitoOptions!: MaskitoOptions
   component = HomePage
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService) {
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private toastController: ToastController) {
    }
 
    ngOnInit() {
@@ -65,20 +66,33 @@ export class RegisterPage implements OnInit {
     this.maskitoOptions = this.changeMaskCpfAndCnpj()
   }
 
+  async showToast(type: 'success' | 'danger', message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      color: type,
+      duration: 2000, // tempo de exibição em milissegundos
+      position: 'bottom' // posição do toast na tela (top, middle, ou bottom)
+    });
+    toast.present();
+  }
+
   onSubmit(event: any) {
     event.preventDefault();
+    const {name, login, password, phone} = this.registerForm.value
     try {
       this.userService.create({
-        name: this.registerForm.value.name,
-        login: this.registerForm.value.login,
-        password: this.registerForm.value.password,
-        phone: this.registerForm.value.phone
-      }).subscribe(
-        result => console.log(result)
+        name,
+        login,
+        password,
+        phone
+      }).pipe(
+        catchError(error => this.showToast('danger', 'Usário não criado!!')),
+
+      ).subscribe(
+        result => this.showToast('success', 'Usário criado com sucesso!!'),
       )
-      alert('Cadastrado com sucesso')
     } catch (error) {
-      console.log(error)
+      this.showToast('danger', 'Erro interno, tente novamente!!')
     }
 
   };

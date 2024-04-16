@@ -55,6 +55,7 @@ export class LoginPage {
           console.log(error);
         }
       )
+      this.router.navigate(['/home'])
     } catch (error) {
       this.presentToast('top', 'login ou senha inválidos!!', 'danger')
       console.log(error)

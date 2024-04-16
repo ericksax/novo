@@ -16,7 +16,7 @@
     <ion-content class="ion-padding" class="">
       <ion-card>
         <ion-card-content>
-          <form>
+          <form [formGroup]="formSendPhoto">
             <ion-list>
               <ion-item>
                 <ion-input
@@ -24,6 +24,7 @@
                   labelPlacement="floating"
                   type="text"
                   placeholder="Nome"
+                  formControlName="name"
                 ></ion-input>
               </ion-item>
               <ion-item>
@@ -38,7 +39,8 @@
                   label="Número"
                   labelPlacement="floating"
                   type="text"
-                  placeholder="Nome"
+                  placeholder="document"
+                  formControlName="document"
                 ></ion-input>
               </ion-item>
               <div  class="ion-justify-content-between container-buttons" >
@@ -57,7 +59,7 @@
                 </ion-button>
 
                 @if(imageUrl) {
-                  <ion-button type="submit">
+                  <ion-button (click)="sendImage()">
                     enviar
                     <ion-icon
                       slot="end"
