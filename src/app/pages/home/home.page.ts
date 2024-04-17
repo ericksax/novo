@@ -68,7 +68,7 @@ import { catchError, throwError } from 'rxjs';
 export class HomePage implements OnInit {
   isSupported = false;
   barcodes: Barcode[] = [];
-  valueInput = '';
+  valueInput: string = '';
   modal!: IonModal;
 
   document: DocumentResponse = {
@@ -89,6 +89,7 @@ export class HomePage implements OnInit {
 
   } as DocumentResponse;
 
+  canOpenModal: boolean = this.valueInput.length > 0;
 
   constructor(
     private route: Router,
@@ -170,6 +171,9 @@ export class HomePage implements OnInit {
 
   changeValueInput(event: any) {
     this.valueInput = event.target.value;
-    console.log(this.valueInput)
+  }
+
+  handleUpdateDocument() {
+    this.sendCodeToApi()
   }
 }

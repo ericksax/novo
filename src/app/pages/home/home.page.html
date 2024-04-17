@@ -175,12 +175,17 @@
               </ion-item>
             </ion-col>
           </ion-row>
-          <ion-button id="open-modal" expand="block"
-            >Seguir com entrega</ion-button
+          <ion-button
+          id="open-modal"
+          expand="block"
+          [disabled]="!canOpenModal"
           >
+          Seguir com entrega
+
+        </ion-button>
         </ion-card-content>
       </ion-card>
-     <app-modal documentId={{document.id}}></app-modal>
+     <app-modal (update)="handleUpdateDocument()" documentId={{document.id}}></app-modal>
     </ion-list>
   </ion-content>
 </div>

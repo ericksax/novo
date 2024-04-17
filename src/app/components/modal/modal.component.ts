@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, Output, ViewChild, EventEmitter } from '@angular/core';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { DocumentService } from '../../services/document.service'
@@ -26,6 +26,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { catchError } from 'rxjs';
 
 
+
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
@@ -42,6 +43,11 @@ export class ModalComponent  implements OnInit {
   message =
     'This modal example uses triggers to automatically open a modal when the button is clicked.';
 
+  @Output() update = new EventEmitter<string>();
+
+  notifyParent() {
+    this.update.emit();
+  }
 
   constructor(private documentService: DocumentService) { }
 
@@ -69,14 +75,16 @@ export class ModalComponent  implements OnInit {
   onWillDismiss(event: Event) {
     const ev = event as CustomEvent<OverlayEventDetail<string>>;
     if (ev.detail.role === 'confirm') {
-      console.log(ev.detail.data)
+
       this.documentService.updateDocument(ev.detail.data, this.documentId).pipe(
         catchError(error => {
           console.error(error)
           throw new Error('Ocorreu um erro')
         })
-      ).subscribe (
-        result => console.log(result),
+      ).subscribe(
+        resut =>  {
+          this.notifyParent()
+        },
       )
     }
   }
@@ -106,9 +114,10 @@ export class ModalComponent  implements OnInit {
   sendImage() {
       this.modal.dismiss({
         image_url: this.imageUrl,
-        image_path: this.imagePath,
         recebedor_nome: this.formSendPhoto.value.name,
         recebedor_documento: this.formSendPhoto.value.document},
         'confirm');
+
+
   };
 }
