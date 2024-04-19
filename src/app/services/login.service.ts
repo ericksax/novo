@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LoginResponse } from '../types/login-response.type';
 import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,11 +13,7 @@ export class LoginService {
 
   login(login: string, password: string) {
     const { baseApiUrl } = environment
-    return this.httpClient.post<LoginResponse>(`${baseApiUrl}/login`, JSON.stringify({login, password}), {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+    return this.httpClient.post<LoginResponse>(`${baseApiUrl}/login`, JSON.stringify({login, password}))
   }
 
   setToken(token: string) {

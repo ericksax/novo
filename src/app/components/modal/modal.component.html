@@ -1,4 +1,4 @@
-<ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+<ion-modal trigger="open-modal">
   <ng-template>
     <ion-header>
       <ion-toolbar>
@@ -16,7 +16,7 @@
     <ion-content class="ion-padding" class="">
       <ion-card>
         <ion-card-content>
-          <form [formGroup]="formSendPhoto">
+          <form [formGroup]="formSendPhoto" (ngSubmit)="submit($event)">
             <ion-list>
               <ion-item>
                 <ion-input
@@ -59,7 +59,7 @@
                 </ion-button>
 
                 @if(imageUrl) {
-                  <ion-button (click)="sendImage()">
+                  <ion-button type="submit">
                     enviar
                     <ion-icon
                       slot="end"
@@ -79,6 +79,10 @@
                   ></ion-icon>
                 }
               </figure>
+
+              <!-- <ion-thumbnail>
+                <ion-img [src]="images[0].data"></ion-img>
+              </ion-thumbnail> -->
             </ion-list>
           </form>
         </ion-card-content>

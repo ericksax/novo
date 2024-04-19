@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { AlertController } from '@ionic/angular';
 import { ModalComponent } from '../../components/modal/modal.component';
+import { formatDistance} from 'date-fns'
 import {
   IonModal,
   IonHeader,
@@ -26,12 +27,17 @@ import {
   IonSelectOption,
   IonSelect,
   IonImg,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardSubtitle,
+  IonThumbnail
+
 
 
 } from '@ionic/angular/standalone';
 import { DocumentResponse } from 'src/app/types/document.type';
 import { DocumentService } from 'src/app/services/document.service';
-import { catchError, throwError } from 'rxjs';
+import { catchError } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -61,7 +67,11 @@ import { catchError, throwError } from 'rxjs';
     IonSelect,
     IonSelectOption,
     IonImg,
-    ModalComponent
+    ModalComponent,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardSubtitle,
+    IonThumbnail
 
   ],
 })
@@ -70,6 +80,7 @@ export class HomePage implements OnInit {
   barcodes: Barcode[] = [];
   valueInput: string = '';
   modal!: IonModal;
+  dataEntrega!: string
 
   document: DocumentResponse = {
     atualizado_em: '',
@@ -89,7 +100,8 @@ export class HomePage implements OnInit {
 
   } as DocumentResponse;
 
-  canOpenModal: boolean = this.valueInput.length > 0;
+  canOpenModal!: boolean;
+  updateComplete!: boolean;
 
   constructor(
     private route: Router,
@@ -136,8 +148,6 @@ export class HomePage implements OnInit {
   onKeyUp(event: KeyboardEvent) {
     if (event.key === "Enter") {
       this.sendCodeToApi()
-      console.log("Enter pressionado!");
-      // Execute a ação desejada aqui, como enviar um formulário, realizar uma busca, etc.
     }
   }
 
@@ -148,9 +158,22 @@ export class HomePage implements OnInit {
         throw new Error('Ocorreu um erro')
       })
     ).subscribe(
-      resut =>  {
-        console.log(resut)
-        this.document = resut
+      result =>  {
+        this.document = result
+
+        this.dataEntrega = Intl.DateTimeFormat('pt-BR').format(new Date(this.document.atualizado_em))
+
+        if(this.document.id !== '') {
+          this.canOpenModal = true
+        } else {
+          this.canOpenModal = false
+        }
+
+        if(this.document.recebedor_nome && this.document.recebedor_documento ) {
+          this.updateComplete = true
+        } else {
+          this.updateComplete = false
+        }
       },
     )
   }

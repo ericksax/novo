@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { environment } from '../../environments/environment';
-import { DocumentRequestUpdateImage, DocumentResponse } from "../types/document.type";
+import {  DocumentResponse } from "../types/document.type";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
@@ -12,7 +12,7 @@ export class DocumentService {
 
   updateDocument(data: any, id: string) {
     const {baseApiUrl} = environment;
-    return this.httpClient.put(`${baseApiUrl}/documents/${id}`, data)
+    return this.httpClient.post(`${baseApiUrl}/documents/${id}`, data)
   };
 
   readDocument(documentId: string): Observable<DocumentResponse> {

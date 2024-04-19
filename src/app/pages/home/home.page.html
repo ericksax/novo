@@ -80,7 +80,6 @@
           </ion-row>
         </ion-card-content>
       </ion-card>
-
       <ion-list-header>
         <ion-label>Destinatário</ion-label>
       </ion-list-header>
@@ -179,13 +178,45 @@
           id="open-modal"
           expand="block"
           [disabled]="!canOpenModal"
+          [color]="updateComplete ? 'warning' : ''"
           >
-          Seguir com entrega
+          {{updateComplete ? 'Editar Entrega' : 'Seguir com entrega'}}
 
         </ion-button>
         </ion-card-content>
       </ion-card>
      <app-modal (update)="handleUpdateDocument()" documentId={{document.id}}></app-modal>
+     @if(updateComplete) {
+       <ion-card class="ion-padding recipient-container-success">
+         <ion-card-header>
+           <ion-card-title>Entrega Efetuada</ion-card-title>
+           <ion-card-subtitle>Dados recebedor</ion-card-subtitle>
+         </ion-card-header>
+         <ion-card-content class="receipt-content">
+          <div>
+            <span>Recebida por: {{document.recebedor_nome}}</span>
+            <span>Documento: {{document.recebedor_documento}}</span>
+            <span>Data: {{dataEntrega}}</span>
+          </div>
+          <ion-thumbnail>
+            <ion-img src={{document.image_url}}/>
+            <span>{{document.image_url}}</span>
+          </ion-thumbnail>
+         </ion-card-content>
+     </ion-card>
+
+     } @else {
+        @if(canOpenModal) {
+          <ion-card class="ion-padding recipient-container">
+            <ion-card-header>
+              <ion-card-title>Entrega Não Efetuada</ion-card-title>
+            </ion-card-header>
+            <ion-card-content class=" receipt_content">
+              Entrega Aguardando recebimento
+            </ion-card-content>
+          </ion-card>
+        }
+     }
     </ion-list>
   </ion-content>
 </div>

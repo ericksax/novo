@@ -13,6 +13,7 @@ export type DocumentResponse = {
   recebedor_rua: string;
   recebedor_telefone: string;
   recebedor_uf: string;
+  image_url: string;
 };
 
 export type DocumentRequestUpdateImage = {
