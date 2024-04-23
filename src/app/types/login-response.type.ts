@@ -1,3 +1,8 @@
 export type LoginResponse = {
-    token: string
+    token: string,
+    user: {
+        id: number,
+        login: string,
+        name: string,
+    }
 }

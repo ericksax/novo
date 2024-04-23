@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit} from '@angular/core';
+import { Router, RouterLink, RouterLinkActive} from '@angular/router';
 import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { AlertController } from '@ionic/angular';
 import { ModalComponent } from '../../components/modal/modal.component';
-import { formatDistance} from 'date-fns'
 import {
   IonModal,
   IonHeader,
@@ -31,13 +30,11 @@ import {
   IonCardTitle,
   IonCardSubtitle,
   IonThumbnail
-
-
-
 } from '@ionic/angular/standalone';
 import { DocumentResponse } from 'src/app/types/document.type';
 import { DocumentService } from 'src/app/services/document.service';
 import { catchError } from 'rxjs';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-home',
@@ -71,8 +68,9 @@ import { catchError } from 'rxjs';
     IonCardHeader,
     IonCardTitle,
     IonCardSubtitle,
-    IonThumbnail
-
+    IonThumbnail,
+    RouterLink,
+    RouterLinkActive
   ],
 })
 export class HomePage implements OnInit {
@@ -106,27 +104,23 @@ export class HomePage implements OnInit {
   constructor(
     private route: Router,
     private alertController: AlertController,
-    private documentService: DocumentService
+    private documentService: DocumentService,
+    private loginService: LoginService
   ) {
 
   }
 
-  goToLogin() {
+  logout() {
+    this.loginService.logout()
     this.route.navigate(['/login']);
-  }
-
-  goToRegister() {
-    this.route.navigate(['/register']);
-  }
-
-  goToDocument() {
-    this.route.navigate(['/document']);
   }
 
   ngOnInit() {
     BarcodeScanner.isSupported().then((result) => {
       this.isSupported = result.supported;
     });
+
+    if(!this.loginService.isLogged()) this.route.navigate(['/login']);
   }
 
   async scan(): Promise<void> {

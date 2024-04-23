@@ -13,10 +13,6 @@ export class UserService {
 
   create(userRequest: UserRequest) {
     const { baseApiUrl } = environment;
-    return this.httpClient.post(`${baseApiUrl}/users`, userRequest, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
+    return this.httpClient.post(`${baseApiUrl}/users`, userRequest, {});
   }
 }

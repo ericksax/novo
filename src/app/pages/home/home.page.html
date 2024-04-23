@@ -7,19 +7,19 @@
 
   <ion-content class="ion-padding">
     <ion-list>
-      <ion-item (click)="goToRegister()">
+      <ion-item>
         <ion-icon name="person-circle-outline" slot="start"></ion-icon>
-        <ion-label>Registrar novo Usuário</ion-label>
+        <ion-label routerLink="/register" routerLinkActive="active">Registrar novo Usuário</ion-label>
       </ion-item>
-      <ion-item (click)="goToDocument()">
+      <ion-item>
         <ion-icon name="document-attach" slot="start"></ion-icon>
-        <ion-label>Registrar novo Documento</ion-label>
+        <ion-label routerLink="/document" routerLinkActive="active">Registrar novo Documento</ion-label>
       </ion-item>
       <ion-item>
         <ion-icon name="people-circle-outline" slot="start"></ion-icon>
         <ion-label>Usuários Castrados</ion-label>
       </ion-item>
-      <ion-item (click)="goToLogin()">
+      <ion-item (click)="logout()">
         <ion-icon name="exit" slot="start"></ion-icon>
         <ion-label>Sair</ion-label>
       </ion-item>
@@ -200,7 +200,6 @@
           </div>
           <ion-thumbnail>
             <ion-img src={{document.image_url}}/>
-            <span>{{document.image_url}}</span>
           </ion-thumbnail>
          </ion-card-content>
      </ion-card>

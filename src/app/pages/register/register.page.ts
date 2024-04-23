@@ -7,7 +7,10 @@ import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 import { MaskitoDirective} from '@maskito/angular';
 import { UserService } from 'src/app/services/user.service';
 import { ToastController } from '@ionic/angular';
-import { catchError } from 'rxjs';
+import { Observable, catchError, of } from 'rxjs';
+import { Router } from '@angular/router';
+
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -22,7 +25,7 @@ export class RegisterPage implements OnInit {
   maskitoOptions!: MaskitoOptions
   component = HomePage
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private toastController: ToastController) {
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private toastController: ToastController, private router: Router) {
    }
 
    ngOnInit() {
@@ -66,14 +69,19 @@ export class RegisterPage implements OnInit {
     this.maskitoOptions = this.changeMaskCpfAndCnpj()
   }
 
-  async showToast(type: 'success' | 'danger', message: string) {
+  async presentToast(
+    position: 'top' | 'middle' | 'bottom',
+    message: string,
+    type: 'danger' | 'success'
+  ) {
     const toast = await this.toastController.create({
       message: message,
+      duration: 3000,
       color: type,
-      duration: 2000, // tempo de exibição em milissegundos
-      position: 'bottom' // posição do toast na tela (top, middle, ou bottom)
+      position: position,
     });
-    toast.present();
+
+    await toast.present();
   }
 
   onSubmit(event: any) {
@@ -86,15 +94,29 @@ export class RegisterPage implements OnInit {
         password,
         phone
       }).pipe(
-        catchError(error => this.showToast('danger', 'Usário não criado!!')),
+        catchError((error, caught: Observable<any>) => {
+            if (error.status === 409) {
+              this.presentToast('top', 'Usuário já existe!!', 'danger');
+            } else {
+              this.presentToast(
+                'top',
+                'Ocorreu um erro. Tente novamente mais tarde.',
+                'danger'
+              );
+            }
+            return of(null);
+          }),
 
-      ).subscribe(
-        result => this.showToast('success', 'Usário criado com sucesso!!'),
+      ).subscribe( (result: any) => {
+          if(result.status === 201) {
+            this.presentToast('top', 'Usário criado com sucesso!!', 'success');
+          }
+        },
       )
     } catch (error) {
-      this.showToast('danger', 'Erro interno, tente novamente!!')
+      this.presentToast('top', 'Erro interno, tente novamente!!', 'danger')
     }
-
+      this.registerForm.reset();
   };
 
   readonly predicate: MaskitoElementPredicate = async (element) => {

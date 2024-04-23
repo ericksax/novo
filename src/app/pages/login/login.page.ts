@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import {
   IonContent,
   IonItem,
@@ -19,7 +19,7 @@ import { NgIf } from '@angular/common';
 import { ToastController } from '@ionic/angular';
 import { Observable, catchError, of } from 'rxjs';
 import { LoginResponse } from 'src/app/types/login-response.type';
-import { HttpErrorResponse } from '@angular/common/http';
+import { User } from 'src/app/types/user-request';
 
 @Component({
   selector: 'app-login',
@@ -38,10 +38,12 @@ import { HttpErrorResponse } from '@angular/common/http';
     IonInput,
   ],
 })
-export class LoginPage {
+export class LoginPage implements OnInit {
   loginForm!: FormGroup;
   password: string = '';
   login: string = '';
+
+  readonly userSignal = signal<User | null>(null);
 
   constructor(
     private loginService: LoginService,
@@ -59,6 +61,13 @@ export class LoginPage {
         Validators.minLength(8),
       ]),
     });
+  }
+
+  async ngOnInit() {
+    console.log(this.userSignal())
+    if(this.loginService.isLogged()) {
+      this.router.navigate(['/home']);
+    }
   }
 
   async presentToast(
@@ -86,9 +95,8 @@ export class LoginPage {
           if (error.status === 401) {
             this.presentToast('top', 'Login ou senha inválidos!!', 'danger');
           } else if (error.status === 404) {
-            this.presentToast('top', 'Recurso não encontrado!!', 'danger');
+            this.presentToast('top', 'Usuario não encontrado!!', 'danger');
           } else {
-            console.log(error.status)
             this.presentToast(
               'top',
               'Ocorreu um erro. Tente novamente mais tarde.',
@@ -100,10 +108,13 @@ export class LoginPage {
       )
       .subscribe((result: LoginResponse | null) => {
         if (result && result.token) {
-          this.loginService.setToken(result.token);
-          this.router.navigate(['/home']);
           this.presentToast('top', 'Usuário logado com sucesso!!', 'success');
+          this.loginService.setToken(result.token);
+          this.loginService.setUser(result.user);
+          this.userSignal.set(result.user);
+          this.router.navigate(['/home']);
         }
       });
+      this.loginForm.reset();
   }
 }
