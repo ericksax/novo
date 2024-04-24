@@ -33,10 +33,13 @@ export const routes: Routes = [
   {
     path: 'notfound',
     loadComponent: () => import('./pages/notfound/notfound.page').then( m => m.NotfoundPage)
-  },  {
+  },
+  {
     path: 'not-authorized',
     loadComponent: () => import('./pages/not-authorized/not-authorized.page').then( m => m.NotAuthorizedPage)
+  },
+  {
+    path: '**',
+    redirectTo: 'notfound',
   }
-
-
 ];
