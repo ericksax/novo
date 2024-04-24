@@ -2,6 +2,11 @@ import { Component, Input, OnInit, Output, ViewChild, EventEmitter } from '@angu
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { DocumentService } from '../../services/document.service'
 import { Filesystem, Directory } from '@capacitor/filesystem';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { catchError } from 'rxjs';
+import { Platform } from '@ionic/angular';
+import { presentToast } from 'src/app/helpers/toast';
+import { ToastController } from '@ionic/angular'
 import {
   IonModal,
   IonHeader,
@@ -23,9 +28,6 @@ import {
   IonSelectOption,
   IonThumbnail
 } from '@ionic/angular/standalone'
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { catchError } from 'rxjs';
-import { Platform, LoadingController } from '@ionic/angular';
 const IMAGE_DIR = 'stored-images';
 
 interface LocalFile {
@@ -39,7 +41,27 @@ interface LocalFile {
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
   standalone: true,
-  imports: [ReactiveFormsModule, IonThumbnail, IonModal,IonImg, IonHeader, IonList, IonButton, IonContent, IonToolbar, IonTitle, IonMenuButton, IonMenu, IonButtons, IonItem, IonIcon, IonCard, IonCardContent, IonInput, IonSelect, IonSelectOption]
+  imports: [
+    ReactiveFormsModule,
+    IonThumbnail,
+    IonModal,
+    IonImg,
+    IonHeader,
+    IonList,
+    IonButton,
+    IonContent,
+    IonToolbar,
+    IonTitle,
+    IonMenuButton,
+    IonMenu,
+    IonButtons,
+    IonItem,
+    IonIcon,
+    IonCard,
+    IonCardContent,
+    IonInput,
+    IonSelect,
+    IonSelectOption]
 })
 export class ModalComponent  implements OnInit {
   formSendPhoto! : FormGroup;
@@ -58,13 +80,17 @@ export class ModalComponent  implements OnInit {
     this.update.emit();
   }
 
-  constructor(private documentService: DocumentService, private plt: Platform, private loadingCtrl: LoadingController) { }
+  constructor(
+    private documentService: DocumentService,
+    private plt: Platform,
+    private toastController: ToastController
+  ) { }
 
   async ngOnInit() {
     this.formSendPhoto = new FormGroup({
-      name: new FormControl('' ),
-      document: new FormControl(''),
-      photo: new FormControl(''),
+      name: new FormControl('', [Validators.required]),
+      document: new FormControl('', [Validators.required]),
+      photo: new FormControl('', [Validators.required]),
     })
 
     this.loadFiles();
@@ -94,6 +120,9 @@ export class ModalComponent  implements OnInit {
 
       this.documentService.updateDocument(formData, this.documentId).pipe(
         catchError(error => {
+          if(error.status === 400) {
+            presentToast(this.toastController, 'top', '', 'danger')
+          }
           console.error(error)
           throw new Error('Ocorreu um erro')
         })
@@ -103,24 +132,8 @@ export class ModalComponent  implements OnInit {
           this.notifyParent()
         },
       )
+      this.cancel()
     }
-
-  // onWillDismiss(event: Event) {
-  //   const ev = event as CustomEvent<OverlayEventDetail<string>>;
-  //   if (ev.detail.role === 'confirm') {
-
-  //     this.documentService.updateDocument(ev.detail.data, this.documentId).pipe(
-  //       catchError(error => {
-  //         console.error(error)
-  //         throw new Error('Ocorreu um erro')
-  //       })
-  //     ).subscribe(
-  //       resut =>  {
-  //         this.notifyParent()
-  //       },
-  //     )
-  //   }
-  // }
 
   takePicture = async () => {
     await this.deletarArquivosFilesystem()
@@ -163,8 +176,6 @@ export class ModalComponent  implements OnInit {
     this.loadFiles();
     // Reload the file list
     // Improve by only loading for the new image and unshifting array!
-
-
   }
 
   async loadFiles() {
@@ -201,7 +212,6 @@ export class ModalComponent  implements OnInit {
 				directory: Directory.Data
 			});
 
-
 			this.images.push({
 				name: f,
 				path: filePath,
@@ -236,20 +246,7 @@ export class ModalComponent  implements OnInit {
     reader.readAsDataURL(blob);
   });
 
-  // async sendImage() {
-  //   const formData = await this.generateFormData(this.images[0])
-
-    // this.modal.dismiss({
-    //   image_data: formData,
-    //   image_url: this.imageUrl,
-    //   recebedor_nome: this.formSendPhoto.value.name,
-    //   recebedor_documento: this.formSendPhoto.value.document},
-    //   'confirm');
-  // };
-
-
 // Upload the formData to our API
-
 
   async deletarArquivosFilesystem() {
     try {
