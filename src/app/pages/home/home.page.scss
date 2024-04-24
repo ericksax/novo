@@ -1,6 +1,6 @@
 ion-content {
   > :first-child {
-    padding-top: 2rem;
+    margin-top: 3rem;
   }
 
   ion-list {
@@ -12,7 +12,7 @@ ion-content {
 
   div {
     display: flex;
-    margin: 8px auto;
+    margin: 0 auto;
     padding: .5rem;
     height: 72px;
     gap: 1rem;
@@ -24,11 +24,6 @@ ion-content {
       border-bottom: 1px solid gray;
       font-size: 1.2rem;
     }
-  }
-
-  ion-item {
-    cursor: pointer;
-    font-size: .9rem;
   }
 
   ion-list-header {
@@ -98,3 +93,4 @@ ion-card {
     gap: 1rem;
   }
 }
+

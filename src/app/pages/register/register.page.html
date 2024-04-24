@@ -7,28 +7,33 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true"  class="ion-padding">
+<ion-content [fullscreen]="true" class="ion-padding">
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Registrar usuário</ion-title>
+      <ion-buttons slot="end" class="ion-padding-end">
+        <ion-back-button defaultHref="/home"></ion-back-button>
+      </ion-buttons>
     </ion-toolbar>
-    <ion-nav [root]="component"></ion-nav>
   </ion-header>
 
   <ion-card>
     <ion-card-content>
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit($event)">
         <ion-item>
-          <ion-input formControlName="name" labelPlacement="floating" label="Nome" />
+          <ion-input
+            formControlName="name"
+            labelPlacement="floating"
+            label="Nome"
+          />
         </ion-item>
         <p>
           {{registerForm.get('formControlName')?.errors?.['minlength'] ? 'Nome
           inválido' : ''}}
         </p>
         <ion-item>
-
           <ion-input
-            label = "CNPJ/CPF"
+            label="CNPJ/CPF"
             labelPlacement="floating"
             formControlName="login"
             type="text"
@@ -43,10 +48,9 @@
           inválido' : ''}}
         </p>
         <ion-item>
-
           <ion-input
-          labelPlacement="floating"
-          label="Telefone"
+            labelPlacement="floating"
+            label="Telefone"
             formControlName="phone"
             [maskito]="maskitoPhoneOptions"
             [maskitoElement]="predicate"
@@ -57,7 +61,13 @@
           inválido' : ''}}
         </p>
         <ion-item>
-          <ion-input type="password" labelPlacement="floating" label="Senha" formControlName="password" maxlength="8" />
+          <ion-input
+            type="password"
+            labelPlacement="floating"
+            label="Senha"
+            formControlName="password"
+            maxlength="8"
+          />
         </ion-item>
         <p>
           {{registerForm.get('password')?.errors?.['minlength'] ? 'minimo 8
@@ -65,8 +75,8 @@
         </p>
         <ion-item>
           <ion-input
-          label="Confirmar senha"
-          labelPlacement="floating"
+            label="Confirmar senha"
+            labelPlacement="floating"
             type="password"
             formControlName="confirmPassword"
             maxlenght="8"

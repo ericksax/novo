@@ -1,4 +1,12 @@
 import { Component, OnInit, signal } from '@angular/core';
+import { LoginService } from 'src/app/services/login.service';
+import { Router } from '@angular/router';
+import { NgIf } from '@angular/common';
+import { presentToast } from '../../helpers/toast'
+import { Observable, catchError, of } from 'rxjs';
+import { LoginResponse } from 'src/app/types/login-response.type';
+import { User } from 'src/app/types/user-request';
+import { ToastController } from '@ionic/angular';
 import {
   IonContent,
   IonItem,
@@ -13,13 +21,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { LoginService } from 'src/app/services/login.service';
-import { Router } from '@angular/router';
-import { NgIf } from '@angular/common';
-import { ToastController } from '@ionic/angular';
-import { Observable, catchError, of } from 'rxjs';
-import { LoginResponse } from 'src/app/types/login-response.type';
-import { User } from 'src/app/types/user-request';
 
 @Component({
   selector: 'app-login',
@@ -70,21 +71,6 @@ export class LoginPage implements OnInit {
     }
   }
 
-  async presentToast(
-    position: 'top' | 'middle' | 'bottom',
-    message: string,
-    type: 'danger' | 'success'
-  ) {
-    const toast = await this.toastController.create({
-      message: message,
-      duration: 1500,
-      color: type,
-      position: position,
-    });
-
-    await toast.present();
-  }
-
   submit() {
     const { password, login } = this.loginForm.value;
 
@@ -93,11 +79,12 @@ export class LoginPage implements OnInit {
       .pipe(
         catchError((error, caught: Observable<LoginResponse>) => {
           if (error.status === 401) {
-            this.presentToast('top', 'Login ou senha inválidos!!', 'danger');
+            presentToast(this.toastController, 'top', 'Login ou senha inválidos!!', 'danger');
           } else if (error.status === 404) {
-            this.presentToast('top', 'Usuario não encontrado!!', 'danger');
+            presentToast(this.toastController, 'top', 'Usuario não encontrado!!', 'danger');
           } else {
-            this.presentToast(
+            presentToast(
+              this.toastController,
               'top',
               'Ocorreu um erro. Tente novamente mais tarde.',
               'danger'
@@ -108,7 +95,7 @@ export class LoginPage implements OnInit {
       )
       .subscribe((result: LoginResponse | null) => {
         if (result && result.token) {
-          this.presentToast('top', 'Usuário logado com sucesso!!', 'success');
+          presentToast(this.toastController, 'top', 'Usuário logado com sucesso!!', 'success');
           this.loginService.setToken(result.token);
           this.loginService.setUser(result.user);
           this.userSignal.set(result.user);

@@ -11,7 +11,6 @@ import {
   IonLabel,
   IonContent,
   IonMenuButton,
-  IonMenu,
   IonButton,
   IonButtons,
   IonItem,
@@ -35,6 +34,7 @@ import { DocumentResponse } from 'src/app/types/document.type';
 import { DocumentService } from 'src/app/services/document.service';
 import { catchError } from 'rxjs';
 import { LoginService } from 'src/app/services/login.service';
+import { SideMenuComponent } from 'src/app/components/side-menu/side-menu.component';
 
 @Component({
   selector: 'app-home',
@@ -47,7 +47,6 @@ import { LoginService } from 'src/app/services/login.service';
     IonTitle,
     IonContent,
     IonMenuButton,
-    IonMenu,
     IonButtons,
     IonList,
     IonRow,
@@ -70,7 +69,8 @@ import { LoginService } from 'src/app/services/login.service';
     IonCardSubtitle,
     IonThumbnail,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    SideMenuComponent
   ],
 })
 export class HomePage implements OnInit {
@@ -110,10 +110,7 @@ export class HomePage implements OnInit {
 
   }
 
-  logout() {
-    this.loginService.logout()
-    this.route.navigate(['/login']);
-  }
+
 
   ngOnInit() {
     BarcodeScanner.isSupported().then((result) => {

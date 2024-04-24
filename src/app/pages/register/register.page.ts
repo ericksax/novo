@@ -9,6 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 import { ToastController } from '@ionic/angular';
 import { Observable, catchError, of } from 'rxjs';
 import { Router } from '@angular/router';
+import { presentToast } from 'src/app/helpers/toast';
 
 
 @Component({
@@ -69,21 +70,6 @@ export class RegisterPage implements OnInit {
     this.maskitoOptions = this.changeMaskCpfAndCnpj()
   }
 
-  async presentToast(
-    position: 'top' | 'middle' | 'bottom',
-    message: string,
-    type: 'danger' | 'success'
-  ) {
-    const toast = await this.toastController.create({
-      message: message,
-      duration: 3000,
-      color: type,
-      position: position,
-    });
-
-    await toast.present();
-  }
-
   onSubmit(event: any) {
     event.preventDefault();
     const {name, login, password, phone} = this.registerForm.value
@@ -96,9 +82,10 @@ export class RegisterPage implements OnInit {
       }).pipe(
         catchError((error, caught: Observable<any>) => {
             if (error.status === 409) {
-              this.presentToast('top', 'Usuário já existe!!', 'danger');
+              presentToast(this.toastController,'top', 'Usuário já existe!!', 'danger');
             } else {
-              this.presentToast(
+              presentToast(
+                this.toastController,
                 'top',
                 'Ocorreu um erro. Tente novamente mais tarde.',
                 'danger'
@@ -109,12 +96,12 @@ export class RegisterPage implements OnInit {
 
       ).subscribe( (result: any) => {
           if(result.status === 201) {
-            this.presentToast('top', 'Usário criado com sucesso!!', 'success');
+            presentToast(this.toastController,'top', 'Usário criado com sucesso!!', 'success');
           }
         },
       )
     } catch (error) {
-      this.presentToast('top', 'Erro interno, tente novamente!!', 'danger')
+      presentToast(this.toastController, 'top', 'Erro interno, tente novamente!!', 'danger')
     }
       this.registerForm.reset();
   };
