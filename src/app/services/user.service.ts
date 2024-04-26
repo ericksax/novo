@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { UserRequest } from "../types/user-request";
+import { UserRequest, UserResponse } from "../types/user-request";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 
@@ -12,7 +12,23 @@ export class UserService {
   constructor(private httpClient: HttpClient) {}
 
   create(userRequest: UserRequest) {
+    const data = {
+      usuario: userRequest.login,
+      senha: userRequest.password,
+      nome_completo: userRequest.name,
+      telefone: userRequest.phone
+    }
     const { baseApiUrl } = environment;
-    return this.httpClient.post(`${baseApiUrl}/users`, userRequest, {});
+    return this.httpClient.post(`${baseApiUrl}/users`, data);
+  }
+
+  showUsers() {
+    const { baseApiUrl } = environment;
+    return this.httpClient.get<UserResponse[]>(`${baseApiUrl}/users`)
+  }
+
+  deleteUser(userId: number) {
+    const { baseApiUrl } = environment;
+    return this.httpClient.delete(`${baseApiUrl}/users/${userId}`)
   }
 }
