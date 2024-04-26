@@ -11,7 +11,7 @@
 
   <ion-content [fullscreen]="true" class="ion-padding">
     <ion-list>
-      <ion-card>
+      <ion-card class="ion-padding">
         <div>
           <ion-button expand="block" (click)="scan()"
             ><ion-icon name="barcode-outline"></ion-icon>
@@ -75,7 +75,7 @@
                 <ion-input
                   label="Data:"
                   [readonly]="true"
-                  value={{document.atualizado_em}}
+                  value={{dataEntrega}}
                 ></ion-input>
               </ion-item>
             </ion-col>

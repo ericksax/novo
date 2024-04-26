@@ -1,5 +1,5 @@
 
-export const presentToast = async(
+export const presentToast = async (
   toastController: any,
   position: 'top' | 'middle' | 'bottom',
   message: string,

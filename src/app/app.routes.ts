@@ -39,7 +39,16 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/not-authorized/not-authorized.page').then( m => m.NotAuthorizedPage)
   },
   {
+    path: 'usuarios',
+    loadComponent: () => import('./pages/usuarios/usuarios.page').then( m => m.UsuariosPage)
+  },
+  {
     path: '**',
     redirectTo: 'notfound',
+  },
+  {
+    path: 'usuarios',
+    loadComponent: () => import('./pages/usuarios/usuarios.page').then( m => m.UsuariosPage)
   }
+
 ];

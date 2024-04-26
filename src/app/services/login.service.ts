@@ -1,19 +1,61 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { LoginResponse } from '../types/login-response.type';
 import { environment } from 'src/environments/environment';
-
+import { User } from '../types/user-request';
+import { Observable, catchError, of } from 'rxjs';
+import { presentToast } from '../helpers/toast';
+import { ToastController } from '@ionic/angular';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root',
 })
 
 export class LoginService {
+  readonly userSignal = signal<User | null>(null);
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(
+    private httpClient: HttpClient,
+    private toastController: ToastController,
+    private router: Router
+  ) {}
 
   login(login: string, password: string) {
+    const data = {
+      usuario: login,
+      senha: password
+    }
     const { baseApiUrl } = environment
-    return this.httpClient.post<LoginResponse>(`${baseApiUrl}/login`, JSON.stringify({login, password}))
+
+    return this.httpClient.post<LoginResponse>(`${baseApiUrl}/login`, JSON.stringify(data))
+    .pipe(
+      catchError((error, caught: Observable<LoginResponse>) => {
+        if (error.status === 401) {
+          presentToast(this.toastController, 'top', 'Login ou senha inválidos!!', 'danger');
+        } else if (error.status === 404) {
+          presentToast(this.toastController, 'top', 'Usuario não encontrado!!', 'danger');
+        } else {
+          presentToast(
+            this.toastController,
+            'top',
+            'Ocorreu um erro. Tente novamente mais tarde.',
+            'danger'
+          );
+        }
+        return of(null);
+      }),
+    ).subscribe((result) => {
+      if (result && result.token) {
+        this.userSignal.set(result.user)
+        this.setToken(result.token)
+        this.setUser(result.user)
+        this.router.navigate(['/home'])
+      } 
+    })
+  }
+
+  getUser() {
+    return this.userSignal()
   }
 
   setToken(token: string) {
@@ -52,7 +94,7 @@ export class LoginService {
   isAdmin(token: string | null ) {
     const decoded = this.getDecodedAccessToken(token)
     if(decoded) {
-      return decoded.is_admin
+      return decoded.admin
     }
   }
 

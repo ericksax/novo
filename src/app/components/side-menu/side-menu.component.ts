@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Signal, WritableSignal, signal } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
 import { Router, RouterLinkActive, RouterLink } from '@angular/router';
+
 import {
   IonMenu,
   IonHeader,
@@ -10,8 +11,12 @@ import {
   IonLabel,
   IonList,
   IonContent,
-  IonTitle
+  IonTitle,
+  IonText,
+  IonChip,
+  IonAvatar
 } from '@ionic/angular/standalone'
+import { User } from 'src/app/types/user-request';
 
 @Component({
   selector: 'app-side-menu',
@@ -28,13 +33,19 @@ import {
     IonContent,
     IonHeader,
     IonTitle,
+    IonText,
     RouterLinkActive,
-    RouterLink
+    RouterLink,
+    IonChip,
+    IonAvatar
   ]
 })
 export class SideMenuComponent  implements OnInit {
 
-  constructor(private router: Router, private loginService: LoginService) { }
+  constructor(
+    private router: Router,
+    private loginService: LoginService,
+    ) {}
 
   ngOnInit() {
     return null
@@ -43,5 +54,9 @@ export class SideMenuComponent  implements OnInit {
   logout() {
     this.loginService.logout()
     this.router.navigate(['/login']);
+  }
+
+  get user() {
+    return this.loginService.getUser()
   }
 }

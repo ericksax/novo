@@ -32,7 +32,7 @@ export class RegisterPage implements OnInit {
    ngOnInit() {
     this.registerForm = this.formBuilder.group({
       name: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      login: new FormControl('', [Validators.required, Validators.minLength(14), Validators.maxLength(18)]),
+      login: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required, Validators.minLength(8)]),
       confirmPassword: new FormControl('', [Validators.required, Validators.minLength(8)]),
       phone: new FormControl('', [Validators.required, Validators.minLength(11)])
@@ -56,23 +56,24 @@ export class RegisterPage implements OnInit {
       mask: ['(', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/],
     };
 
-  //essa função serve para mudar o formato do campo(máscara) de acordo com o tipo de documento
-  changeMaskCpfAndCnpj() {
-   return  this.quantity.length > 13 ? {
-      mask:  [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/],
-    } : {
-      mask:  [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/],
-    };
-  }
+  //essa função serve paramudar o formato do campo(máscara) de acordo com o tipo de documento
+  // changeMaskCpfAndCnpj() {
+  //  return  this.quantity.length > 13 ? {
+  //     mask:  [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/],
+  //   } : {
+  //     mask:  [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/],
+  //   };
+  // }
 
-  onLoginChange(event: any){
-    this.quantity = event.target.value
-    this.maskitoOptions = this.changeMaskCpfAndCnpj()
-  }
+  // onLoginChange(event: any){
+  //   this.quantity = event.target.value
+  //   this.maskitoOptions = this.changeMaskCpfAndCnpj()
+  // }
 
   onSubmit(event: any) {
     event.preventDefault();
     const {name, login, password, phone} = this.registerForm.value
+
     try {
       this.userService.create({
         name,
@@ -95,8 +96,14 @@ export class RegisterPage implements OnInit {
           }),
 
       ).subscribe( (result: any) => {
-          if(result.status === 201) {
-            presentToast(this.toastController,'top', 'Usário criado com sucesso!!', 'success');
+        console.log(result)
+          if(result && result.status === 201) {
+            presentToast(
+              this.toastController,
+              'top',
+              'Usário criado com sucesso!!',
+              'success'
+            );
           }
         },
       )
@@ -108,5 +115,24 @@ export class RegisterPage implements OnInit {
 
   readonly predicate: MaskitoElementPredicate = async (element) => {
     return (element as HTMLIonInputElement).getInputElement();
+  }
+
+  onInputChangeCompleteName(event: any) {
+    const fullName = event.target.value;
+    const login = this.loginGenerator(fullName);
+    this.registerForm.get('login')?.setValue(login);
+  }
+
+
+  loginGenerator(fullName: string) {
+
+    const names = fullName.trim().split(/\s+/);
+
+    // Extract the first and last name
+    const firstName = names[0].toLowerCase();
+    const lastName = names[names.length - 1].toLowerCase();
+
+    // Combine first and last name with a dot
+    return `${firstName}.${lastName}`;
   }
 }

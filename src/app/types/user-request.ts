@@ -6,10 +6,10 @@ export type UserRequest = {
 }
 
 export type UserResponse = {
-  id: number;
-  name: string;
-  login: string;
-  phone: string;
+  idusuario_transportadora: number;
+  nome_completo: string;
+  usuario: string;
+  telefone: string;
 }
 
 export type User = {

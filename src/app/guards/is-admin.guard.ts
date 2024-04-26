@@ -6,6 +6,7 @@ import { Injectable, inject } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
+
 class PermissionsService {
   constructor(private router: Router) { };
   canActivate(token: string | null ): boolean {

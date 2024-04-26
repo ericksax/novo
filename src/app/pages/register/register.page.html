@@ -22,9 +22,10 @@
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit($event)">
         <ion-item>
           <ion-input
+            (ionChange) = "onInputChangeCompleteName($event)"
             formControlName="name"
             labelPlacement="floating"
-            label="Nome"
+            label="Nome Completo"
           />
         </ion-item>
         <p>
@@ -33,14 +34,11 @@
         </p>
         <ion-item>
           <ion-input
-            label="CNPJ/CPF"
+            label="Usuário"
             labelPlacement="floating"
             formControlName="login"
             type="text"
-            [(ngModel)]="quantity"
-            [maskito]="maskitoOptions"
-            [maskitoElement]="predicate"
-            (ionInput)="onLoginChange($event)"
+
           />
         </ion-item>
         <p>
@@ -75,9 +73,9 @@
         </p>
         <ion-item>
           <ion-input
-            label="Confirmar senha"
-            labelPlacement="floating"
             type="password"
+            labelPlacement="floating"
+            label="Confirmar senha"
             formControlName="confirmPassword"
             maxlenght="8"
           />

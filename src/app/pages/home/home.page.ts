@@ -59,17 +59,16 @@ import { SideMenuComponent } from 'src/app/components/side-menu/side-menu.compon
     IonCard,
     IonCardContent,
     IonCol,
-    IonModal,
     IonSelect,
     IonSelectOption,
     IonImg,
-    ModalComponent,
     IonCardHeader,
     IonCardTitle,
     IonCardSubtitle,
     IonThumbnail,
     RouterLink,
     RouterLinkActive,
+    ModalComponent,
     SideMenuComponent
   ],
 })
@@ -106,11 +105,7 @@ export class HomePage implements OnInit {
     private alertController: AlertController,
     private documentService: DocumentService,
     private loginService: LoginService
-  ) {
-
-  }
-
-
+  ) {}
 
   ngOnInit() {
     BarcodeScanner.isSupported().then((result) => {
@@ -151,7 +146,6 @@ export class HomePage implements OnInit {
     ).subscribe(
       result =>  {
         this.document = result
-
         this.dataEntrega = Intl.DateTimeFormat('pt-BR').format(new Date(this.document.atualizado_em))
 
         if(this.document.id !== '') {

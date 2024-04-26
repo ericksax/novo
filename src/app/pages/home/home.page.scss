@@ -1,10 +1,10 @@
 ion-content {
   > :first-child {
-    margin-top: 3rem;
+    margin-top: 2rem;
   }
 
   ion-list {
-    padding: 0 .5rem;
+    // padding: 0 .5rem;
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
@@ -13,7 +13,7 @@ ion-content {
   div {
     display: flex;
     margin: 0 auto;
-    padding: .5rem;
+    // padding: .5rem;
     height: 72px;
     gap: 1rem;
 
@@ -23,6 +23,7 @@ ion-content {
       display: flex;
       border-bottom: 1px solid gray;
       font-size: 1.2rem;
+
     }
   }
 
@@ -38,20 +39,21 @@ ion-content {
 }
 
 ion-toolbar {
-  --background: linear-gradient(196deg, rgb(29, 209, 206) 0%, rgb(3, 47, 54) 100%);
+  --background: rgb(2, 65, 75);
   --color: rgb(237, 237, 237);
 }
 
 ion-button {
-  --background: rgb(5, 165, 165);
+  --background: rgb(4, 129, 129);
 }
 
 ion-card {
   margin-top: 1rem;
   margin-bottom: 2rem;
 
+
   ion-card-content {
-    padding: .5rem;
+    // padding: .5rem;
     padding-bottom: 1rem;
   }
 }
@@ -65,7 +67,7 @@ ion-card {
   ion-card-content {
     display: flex;
     flex-direction: column;
-    padding: 1rem;
+    // padding: 1rem;
   }
 }
 
@@ -83,7 +85,7 @@ ion-card {
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: flex-end;
-  padding: 1rem;
+  // padding: 1rem;
   gap: 1rem;
 
   div {
