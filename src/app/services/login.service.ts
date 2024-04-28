@@ -2,22 +2,23 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { LoginResponse } from '../types/login-response.type';
 import { environment } from 'src/environments/environment';
-import { User } from '../types/user-request';
+import { User, UserResponse } from '../types/user-request';
 import { Observable, catchError, of } from 'rxjs';
 import { presentToast } from '../helpers/toast';
 import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { UserService } from './user.service';
 @Injectable({
   providedIn: 'root',
 })
 
 export class LoginService {
-  readonly userSignal = signal<User | null>(null);
+  readonly userSignal = signal<UserResponse | null>(null);
 
   constructor(
     private httpClient: HttpClient,
     private toastController: ToastController,
-    private router: Router
+    private router: Router,
   ) {}
 
   login(login: string, password: string) {
@@ -46,16 +47,11 @@ export class LoginService {
       }),
     ).subscribe((result) => {
       if (result && result.token) {
-        this.userSignal.set(result.user)
         this.setToken(result.token)
         this.setUser(result.user)
         this.router.navigate(['/home'])
-      } 
+      }
     })
-  }
-
-  getUser() {
-    return this.userSignal()
   }
 
   setToken(token: string) {
@@ -64,6 +60,10 @@ export class LoginService {
 
   setUser(user: any) {
     localStorage.setItem('@D&CUser', JSON.stringify(user))
+  }
+
+  getUser() {
+    return JSON.parse(localStorage.getItem('@D&CUser')!)
   }
 
   getToken() {
@@ -94,7 +94,7 @@ export class LoginService {
   isAdmin(token: string | null ) {
     const decoded = this.getDecodedAccessToken(token)
     if(decoded) {
-      return decoded.admin
+      return decoded.is_admin
     }
   }
 
@@ -110,7 +110,7 @@ export class LoginService {
     if(!token) token = this.getToken();
     if(!token) return true;
     const date = this.getTokenExpirationDate(token);
-    if(date === undefined) return false;
+    if(date === undefined) return true;
     return !(date!.valueOf() > new Date().valueOf());
   }
 

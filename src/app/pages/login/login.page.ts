@@ -1,10 +1,7 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
 import { Router } from '@angular/router';
 import { NgIf } from '@angular/common';
-import { presentToast } from '../../helpers/toast'
-import { Observable, catchError, of } from 'rxjs';
-import { LoginResponse } from 'src/app/types/login-response.type';
 
 import {
   IonContent,
@@ -43,8 +40,6 @@ export class LoginPage implements OnInit {
   password: string = '';
   login: string = '';
 
-
-
   constructor(
     private loginService: LoginService,
     private router: Router,
@@ -73,8 +68,7 @@ export class LoginPage implements OnInit {
 
     this.loginService
       .login(login, password)
-    
-  
+
       this.loginForm.reset();
   }
 }

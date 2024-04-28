@@ -15,7 +15,7 @@
           src="https://ionicframework.com/docs/img/demos/avatar.svg"
           />
         </ion-avatar>
-        <ion-label>{{user?.name }}</ion-label>
+        <ion-label>{{user.name }}</ion-label>
       </ion-chip>
     }
 
@@ -34,7 +34,9 @@
       </ion-item>
       <ion-item (click)="logout()">
         <ion-icon name="exit" slot="start"></ion-icon>
-        <ion-label>Sair</ion-label>
+        <ion-menu-toggle>
+          <ion-label>Sair</ion-label>
+        </ion-menu-toggle>
       </ion-item>
     </ion-list>
   </ion-content>

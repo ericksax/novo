@@ -11,6 +11,7 @@ class PermissionsService {
    const isExpired =  inject(LoginService).isTokenExpired(token)
 
     if(isExpired) return false
+
     return true
   }
  }
