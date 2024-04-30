@@ -13,7 +13,7 @@ ion-content {
   div {
     display: flex;
     margin: 0 auto;
-    // padding: .5rem;
+    padding: .5rem;
     height: 72px;
     gap: 1rem;
 
@@ -39,7 +39,7 @@ ion-content {
 }
 
 ion-toolbar {
-  --background: rgb(2, 65, 75);
+  --background: linear-gradient(196deg, rgb(29, 209, 206) 0%, rgb(3, 47, 54) 100%);
   --color: rgb(237, 237, 237);
 }
 

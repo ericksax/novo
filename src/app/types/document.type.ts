@@ -1,19 +1,26 @@
 export type DocumentResponse = {
-  atualizado_em: string;
-  criado_em: string;
-  documento_nome: string;
-  documento_tipo: string;
-  id: string;
-  id_usuario: string;
-  recebedor_cep: string;
-  recebedor_cidade: string;
-  recebedor_documento: string;
+  iddocumento: string;
+  idusuario_transportadora: string;
+  numero_documento: string;
+  chave_acesso: string;
+  nome_destinatario: string;
+  cpf_destinatario: string;
+  cnpj_destinatario: string;
+  end_logradouro: string;
+  end_numero: string;
+  end_complemento: string;
+  end_cidade: string;
+  end_bairro: string;
+  end_cep: string;
   recebedor_nome: string;
-  recebedor_numero: string;
-  recebedor_rua: string;
-  recebedor_telefone: string;
-  recebedor_uf: string;
-  image_url: string;
+  recebedor_documento: string;
+  data_cadastro: string;
+  data_atualizacao: string;
+  foto_canhoto: string;
+  nome_completo: string;
+  telefone: string;
+  tel_destinatario: string;
+  uf_destinatario: string;
 };
 
 export type DocumentRequestUpdateImage = {

@@ -10,5 +10,11 @@
       <ion-title size="large">Usuários</ion-title>
     </ion-toolbar>
   </ion-header>
-    <app-card-usuarios (deleteUserEvent)="onDeleteUser()" *ngFor="let user of users()"  [user]="user"></app-card-usuarios>
+  <div class="ion-padding">
+    <app-card-usuarios
+    (deleteUserEvent)="onDeleteUser()"
+    *ngFor="let user of users()"
+    [user]="user"
+    ></app-card-usuarios>
+  </div>
 </ion-content>

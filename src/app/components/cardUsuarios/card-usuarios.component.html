@@ -1,17 +1,24 @@
-
-<ion-card class='card-container ion-padding'>
+<ion-card class="card-container ion-padding">
   <ion-card-header>
-    <ion-card-title>{{user.nome_completo}}</ion-card-title>
-    <ion-card-subtitle>{{user.usuario}}</ion-card-subtitle>
+    <ion-card-title>{{ user.nome_completo }}</ion-card-title>
+    <ion-card-subtitle>{{ user.usuario }}</ion-card-subtitle>
   </ion-card-header>
 
   <ion-card-content>
     <ion-list>
-      <ion-item>
-        Telefone: {{user.telefone}}
-      </ion-item>
+      <ion-item> Telefone: {{ user.telefone }} </ion-item>
     </ion-list>
-    <ion-button color="danger" (click)="deleteUser(user.idusuario_transportadora)">Deletar</ion-button>
-    <ion-button color="warning" (click)="editUser(user.idusuario_transportadora)">Editar</ion-button>
+    <ion-button
+      color="danger"
+      (click)="deleteUser(user.idusuario_transportadora)"
+      >Deletar</ion-button
+    >
+    <ion-button
+      color="warning"
+      routerLink="/edit-user/{{user.idusuario_transportadora}}"
+      routerLinkActive="active"
+    >
+      Editar
+    </ion-button>
   </ion-card-content>
 </ion-card>

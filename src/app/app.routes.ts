@@ -40,15 +40,19 @@ export const routes: Routes = [
   },
   {
     path: 'usuarios',
+    loadComponent: () => import('./pages/usuarios/usuarios.page').then( m => m.UsuariosPage),
+    canActivate: [isAuthenticated, isAdmin]
+  },
+  {
+    path: 'usuarios',
     loadComponent: () => import('./pages/usuarios/usuarios.page').then( m => m.UsuariosPage)
+  },
+  {
+    path: 'edit-user/:id',
+    loadComponent: () => import('./pages/edit-user/edit-user.page').then( m => m.EditUserPage)
   },
   {
     path: '**',
     redirectTo: 'notfound',
   },
-  {
-    path: 'usuarios',
-    loadComponent: () => import('./pages/usuarios/usuarios.page').then( m => m.UsuariosPage)
-  }
-
 ];

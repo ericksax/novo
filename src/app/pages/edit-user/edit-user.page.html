@@ -1,0 +1,54 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Editar Usuário</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Editar Usuário</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div>
+
+
+  <form (ngSubmit)="submit()" [formGroup]="formEdit">
+    <ion-list>
+      <ion-item>
+        <ion-input
+          label="Nome Completo"
+          labelPlacement="floating"
+          type="text"
+          value="{{user.nome_completo}}"
+          formControlName="nome_completo"
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input
+          label="Usuário"
+          labelPlacement="floating"
+          type="text"
+          value="{{user.usuario}}"
+          formControlName="usuario"
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input
+          label="Telefone"
+          labelPlacement="floating"
+          type="text"
+          value="{{user.telefone}}"
+          formControlName="telefone"
+        ></ion-input>
+      </ion-item>
+
+        <ion-button type="submit" color="success" >
+          Atualizar
+        </ion-button>
+
+    </ion-list>
+  </form>
+</div>
+</ion-content>

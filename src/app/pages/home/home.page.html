@@ -16,14 +16,14 @@
           <ion-button expand="block" (click)="scan()"
             ><ion-icon name="barcode-outline"></ion-icon>
           </ion-button>
-          <ion-input placeholder="Chave aqui" (ionInput)="changeValueInput($event)" (keyup)="onKeyUp($event)" value="{{valueInput}}" />
+          <ion-input placeholder="Chave aqui" (ionInput)="changeValueInputKey($event)" (keyup)="onKeyUpByKey($event)"  value="{{nfKey}}" />
         </div>
 
         <div>
-          <ion-button expand="block">
+          <ion-button expand="block" (click)="scanQrCode()">
             <ion-icon name="qr-code-outline"></ion-icon>
           </ion-button>
-          <ion-input placeholder="Qr code aqui" />
+          <ion-input placeholder="Qr code aqui" (ionInput)="changeValueInput($event)" (keyup)="onKeyUp($event)" value="{{valueInput}}" />
         </div>
       </ion-card>
     </ion-list>
@@ -39,17 +39,16 @@
               <ion-item>
                 <ion-input
                   [readonly]="true"
-                  value=''
-                  label="login"
+                  value={{document.nome_completo}}
+                  label="Nome"
                 ></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-input
-                  label="CPF/CNPJ:"
+                  label="Telefone:"
                   [readonly]="true"
-                  value=''
-                ></ion-input>
+                  value={{document.telefone}}                ></ion-input>
               </ion-item>
             </ion-col>
           </ion-row>
@@ -66,7 +65,7 @@
                 <ion-input
                   label="Nome:"
                   [readonly]="true"
-                  value={{document.recebedor_nome}}
+                  value={{document.nome_destinatario}}
                 ></ion-input>
               </ion-item>
             </ion-col>
@@ -97,7 +96,7 @@
                 <ion-input
                   label="Telefone:"
                   [readonly]="true"
-                  value={{document.recebedor_telefone}}
+                  value="{{document.tel_destinatario}}"
                 ></ion-input>
               </ion-item>
             </ion-col>
@@ -109,7 +108,7 @@
                 <ion-input
                   label="Endereço:"
                   [readonly]="true"
-                  value={{document.recebedor_rua}}
+                  value={{document.end_logradouro}}
                 ></ion-input>
               </ion-item>
             </ion-col>
@@ -118,7 +117,7 @@
                 <ion-input
                   label="Número:"
                   [readonly]="true"
-                  value={{document.recebedor_numero}}
+                  value={{document.end_numero}}
                 ></ion-input>
               </ion-item>
             </ion-col>
@@ -130,7 +129,7 @@
                 <ion-input
                   label="CEP:"
                   [readonly]="true"
-                  value={{document.recebedor_cep}}
+                  value={{document.end_cep}}
                 ></ion-input>
               </ion-item>
             </ion-col>
@@ -139,13 +138,13 @@
                 <ion-input
                   label="Cidade:"
                   [readonly]="true"
-                  value={{document.recebedor_cidade}}
+                  value={{document.end_cidade}}
                 ></ion-input>
               </ion-item>
             </ion-col>
             <ion-col size="12" size-sm="2">
               <ion-item>
-                <ion-input label="UF:" [readonly]="true" value={{document.recebedor_uf}}></ion-input>
+                <ion-input label="UF:" [readonly]="true" value={{document.uf_destinatario}}></ion-input>
               </ion-item>
             </ion-col>
           </ion-row>
@@ -160,7 +159,7 @@
         </ion-button>
         </ion-card-content>
       </ion-card>
-     <app-modal (update)="handleUpdateDocument()" documentId={{document.id}}></app-modal>
+     <app-modal (update)="handleUpdateDocument()" documentId={{document.iddocumento}}></app-modal>
      @if(updateComplete) {
        <ion-card class="ion-padding recipient-container-success">
          <ion-card-header>
@@ -174,7 +173,7 @@
             <span>Data: {{dataEntrega}}</span>
           </div>
           <ion-thumbnail>
-            <ion-img src={{document.image_url}}/>
+            <ion-img src={{document.foto_canhoto}}/>
           </ion-thumbnail>
          </ion-card-content>
      </ion-card>

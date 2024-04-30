@@ -2,12 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { LoginResponse } from '../types/login-response.type';
 import { environment } from 'src/environments/environment';
-import { User, UserResponse } from '../types/user-request';
+import { UserResponse } from '../types/user-request';
 import { Observable, catchError, of } from 'rxjs';
 import { presentToast } from '../helpers/toast';
 import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { UserService } from './user.service';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -22,11 +22,12 @@ export class LoginService {
   ) {}
 
   login(login: string, password: string) {
+    const { baseApiUrl } = environment
+
     const data = {
       usuario: login,
       senha: password
     }
-    const { baseApiUrl } = environment
 
     return this.httpClient.post<LoginResponse>(`${baseApiUrl}/login`, JSON.stringify(data))
     .pipe(
@@ -47,6 +48,7 @@ export class LoginService {
       }),
     ).subscribe((result) => {
       if (result && result.token) {
+        presentToast(this.toastController, 'bottom', 'Login efetuado com sucesso!!', 'success')
         this.setToken(result.token)
         this.setUser(result.user)
         this.router.navigate(['/home'])

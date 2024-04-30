@@ -32,6 +32,16 @@ export class UserService {
     return this.httpClient.delete(`${baseApiUrl}/users/${userId}`)
   }
 
+  updateUser(userId: number, userRequest: UserRequest) {
+    const { baseApiUrl } = environment;
+    return this.httpClient.put(`${baseApiUrl}/users/${userId}`, userRequest)
+  }
+
+  retrieveOne(id: number) {
+    const { baseApiUrl } = environment;
+    return this.httpClient.get<UserResponse>(`${baseApiUrl}/users/${id}`)
+  }
+
   retrieve() {
     const { baseApiUrl } = environment;
     const token = localStorage.getItem('@D&CToken')

@@ -12,7 +12,7 @@ class PermissionsService {
   canActivate(token: string | null ): boolean {
    const isAdmin = inject(LoginService).isAdmin(token);
 
-    if(isAdmin == 0) {
+    if(!isAdmin) {
       this.router.navigate(['/not-authorized']);
       return false
     }

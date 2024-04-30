@@ -19,4 +19,10 @@ export class DocumentService {
     const {baseApiUrl} = environment;
     return this.httpClient.get<DocumentResponse>(`${baseApiUrl}/documents/${documentId}`)
   }
+
+  readDocumentByKey(chave: string) {
+    const {baseApiUrl} = environment;
+    return this.httpClient.get<DocumentResponse>(`${baseApiUrl}/documents?chave=${chave}`)
+  }
+
 }

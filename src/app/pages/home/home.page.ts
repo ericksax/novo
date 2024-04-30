@@ -35,6 +35,7 @@ import { DocumentService } from 'src/app/services/document.service';
 import { catchError } from 'rxjs';
 import { LoginService } from 'src/app/services/login.service';
 import { SideMenuComponent } from 'src/app/components/side-menu/side-menu.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -69,7 +70,8 @@ import { SideMenuComponent } from 'src/app/components/side-menu/side-menu.compon
     RouterLink,
     RouterLinkActive,
     ModalComponent,
-    SideMenuComponent
+    SideMenuComponent,
+    CommonModule
   ],
 })
 export class HomePage implements OnInit {
@@ -78,24 +80,9 @@ export class HomePage implements OnInit {
   valueInput: string = '';
   modal!: IonModal;
   dataEntrega!: string
+  nfKey!: string
 
-  document: DocumentResponse = {
-    atualizado_em: '',
-    criado_em: '',
-    documento_nome: '',
-    documento_tipo: '',
-    id: '',
-    id_usuario: '',
-    recebedor_cep: '',
-    recebedor_cidade: '',
-    recebedor_documento: '',
-    recebedor_nome: '',
-    recebedor_numero: '',
-    recebedor_rua: '',
-    recebedor_telefone: '',
-    recebedor_uf: ''
-
-  } as DocumentResponse;
+  document: DocumentResponse = {} as DocumentResponse;
 
   canOpenModal!: boolean;
   updateComplete!: boolean;
@@ -126,8 +113,28 @@ export class HomePage implements OnInit {
     this.barcodes.push(...barcodes);
     this.valueInput = '';
     this.valueInput = barcodes[0].displayValue;
+
+
     if (barcodes[0].displayValue) {
       this.sendCodeToApi()
+    }
+  }
+
+  async scanQrCode(): Promise<void> {
+    const granted = await this.requestPermissions();
+    if (!granted) {
+      this.presentAlert();
+      return;
+    }
+    const { barcodes } = await BarcodeScanner.scan();
+
+    this.barcodes.push(...barcodes);
+    this.nfKey = '';
+    this.nfKey = barcodes[0].displayValue;
+
+
+    if (barcodes[0].displayValue) {
+      this.sendCodeToApiByKey()
     }
   }
 
@@ -137,7 +144,14 @@ export class HomePage implements OnInit {
     }
   }
 
+  onKeyUpByKey(event: KeyboardEvent) {
+    if (event.key === "Enter") {
+      this.sendCodeToApiByKey()
+    }
+  }
+
   sendCodeToApi() {
+
     this.documentService.readDocument(this.valueInput).pipe(
       catchError(error => {
         console.error(error)
@@ -146,9 +160,9 @@ export class HomePage implements OnInit {
     ).subscribe(
       result =>  {
         this.document = result
-        this.dataEntrega = Intl.DateTimeFormat('pt-BR').format(new Date(this.document.atualizado_em))
+        this.dataEntrega = Intl.DateTimeFormat('pt-BR').format(new Date(this.document.data_atualizacao))
 
-        if(this.document.id !== '') {
+        if(this.document.iddocumento!== '') {
           this.canOpenModal = true
         } else {
           this.canOpenModal = false
@@ -162,6 +176,33 @@ export class HomePage implements OnInit {
       },
     )
   }
+
+  sendCodeToApiByKey() {
+    this.documentService.readDocumentByKey(this.nfKey).pipe(
+      catchError(error => {
+        console.error(error)
+        throw new Error('Ocorreu um erro')
+      })
+    ).subscribe(
+      result =>  {
+        this.document = result
+        this.dataEntrega = Intl.DateTimeFormat('pt-BR').format(new Date(this.document.data_atualizacao))
+
+        if(this.document.iddocumento!== '') {
+          this.canOpenModal = true
+        } else {
+          this.canOpenModal = false
+        }
+
+        if(this.document.recebedor_nome && this.document.recebedor_documento ) {
+          this.updateComplete = true
+        } else {
+          this.updateComplete = false
+        }
+
+      })
+  }
+
 
   async requestPermissions(): Promise<boolean> {
     const { camera } = await BarcodeScanner.requestPermissions();
@@ -178,7 +219,13 @@ export class HomePage implements OnInit {
   };
 
   changeValueInput(event: any) {
-    this.valueInput = event.target.value;
+    const { value } = event.target
+    this.valueInput = value.trim();
+  }
+
+  changeValueInputKey(event: any) {
+    const { value } = event.target
+    this.nfKey = value.trim();
   }
 
   handleUpdateDocument() {

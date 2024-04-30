@@ -1,4 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { catchError } from 'rxjs';
+import { UserService } from 'src/app/services/user.service';
+import { UserResponse } from 'src/app/types/user-request';
+import { RouterLinkActive, RouterLink } from '@angular/router';
+
 import {
   IonButton,
   IonCard,
@@ -7,11 +12,8 @@ import {
   IonCardContent,
   IonCardHeader,
   IonCardTitle,
-  IonCardSubtitle
+  IonCardSubtitle,
 } from '@ionic/angular/standalone';
-import { catchError } from 'rxjs';
-import { UserService } from 'src/app/services/user.service';
-import { UserResponse, usersResponse } from 'src/app/types/user-request';
 @Component({
   selector: 'app-card-usuarios',
   standalone: true,
@@ -25,39 +27,40 @@ import { UserResponse, usersResponse } from 'src/app/types/user-request';
     IonCardContent,
     IonCardHeader,
     IonCardTitle,
-    IonCardSubtitle
-  ]
+    IonCardSubtitle,
+    RouterLink,
+    RouterLinkActive,
+  ],
 })
-export class CardUsuariosComponent  implements OnInit {
+export class CardUsuariosComponent implements OnInit {
+  @Input() user!: UserResponse;
+  @Output() deleteUserEvent = new EventEmitter<number>();
 
-  @Input() user!: UserResponse
-  @Output() deleteUserEvent = new EventEmitter<number>()
-
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) {}
 
   ngOnInit() {
-    return null
+    return null;
   }
 
   deleteUser(userId: number) {
-    this.userService.deleteUser(userId).pipe(
-      catchError(error => {
-        console.error(error)
-        throw new Error('Ocorreu um erro')
-      })
-    ).subscribe(
-      result =>  {
-        this.handleDeleteUser()
-      },
-    )
+    this.userService
+      .deleteUser(userId)
+      .pipe(
+        catchError((error) => {
+          console.error(error);
+          throw new Error('Ocorreu um erro');
+        })
+      )
+      .subscribe((result) => {
+        this.handleDeleteUser();
+      });
   }
 
   handleDeleteUser() {
-    this.deleteUserEvent.emit()
+    this.deleteUserEvent.emit();
   }
 
-  editUser(userId: number){
-    console.log(userId)
+  editUser(userId: number) {
+    console.log(userId);
   }
-
 }
