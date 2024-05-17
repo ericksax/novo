@@ -1,4 +1,4 @@
 export const environment = {
-  baseApiUrl: 'http://localhost:8000',
+  baseApiUrl: 'https://ativa.nivel3ti.com.br:44472/wms_ativa/apiservice/apicanhoto/src/',
   production: true
 };

@@ -68,7 +68,6 @@ export class LoginPage implements OnInit {
 
     this.loginService
       .login(login, password)
-
       this.loginForm.reset();
   }
 }

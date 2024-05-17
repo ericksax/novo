@@ -1,8 +1,9 @@
 export type UserRequest = {
-  login: string;
-  password: string;
-  name: string;
-  phone: string;
+  usuario: string;
+  senha: string;
+  nome_completo: string;
+  telefone: string;
+  cpfcnpj: string;
 }
 
 export type UserResponse = {
@@ -10,6 +11,7 @@ export type UserResponse = {
   nome_completo: string;
   usuario: string;
   telefone: string;
+  cpfcnpj: string;
 }
 
 export type User = {

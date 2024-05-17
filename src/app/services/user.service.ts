@@ -12,34 +12,44 @@ export class UserService {
   constructor(private httpClient: HttpClient) {}
 
   create(userRequest: UserRequest) {
-    const data = {
-      usuario: userRequest.login,
-      senha: userRequest.password,
-      nome_completo: userRequest.name,
-      telefone: userRequest.phone
-    }
     const { baseApiUrl } = environment;
-    return this.httpClient.post(`${baseApiUrl}/users`, data);
+    return this.httpClient.post(`${baseApiUrl}/createUser.php`, userRequest, {observe: 'response'});
   }
 
   showUsers() {
     const { baseApiUrl } = environment;
-    return this.httpClient.get<UserResponse[]>(`${baseApiUrl}/users`)
+    return this.httpClient.get<UserResponse[]>(`${baseApiUrl}/showUsers.php`)
   }
 
   deleteUser(userId: number) {
     const { baseApiUrl } = environment;
-    return this.httpClient.delete(`${baseApiUrl}/users/${userId}`)
+    return this.httpClient.delete(`${baseApiUrl}/deleteUser.php`, {
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ id: userId })
+    })
   }
 
   updateUser(userId: number, userRequest: UserRequest) {
     const { baseApiUrl } = environment;
-    return this.httpClient.put(`${baseApiUrl}/users/${userId}`, userRequest)
+    const data = {
+      id: userId,
+      usuario: userRequest.usuario,
+      cpfcnpj: userRequest.cpfcnpj,
+      nome_completo: userRequest.nome_completo,
+      telefone: userRequest.telefone
+    }
+    return this.httpClient.put(`${baseApiUrl}/updateUser.php`, data, {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
   }
 
   retrieveOne(id: number) {
     const { baseApiUrl } = environment;
-    return this.httpClient.get<UserResponse>(`${baseApiUrl}/users/${id}`)
+    return this.httpClient.post<UserResponse>(`${baseApiUrl}/retrieveUser.php`, { id })
   }
 
   retrieve() {

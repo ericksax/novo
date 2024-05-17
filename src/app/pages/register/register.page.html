@@ -23,52 +23,60 @@
         <ion-item>
           <ion-input
             (ionChange) = "onInputChangeCompleteName($event)"
-            formControlName="name"
+            formControlName="nome_completo"
             labelPlacement="floating"
             label="Nome Completo"
           />
         </ion-item>
         <p>
-          {{registerForm.get('formControlName')?.errors?.['minlength'] ? 'Nome
+          {{registerForm.get('nome_completo')?.errors?.['minlength'] ? 'Nome
           inválido' : ''}}
         </p>
         <ion-item>
           <ion-input
             label="Usuário"
             labelPlacement="floating"
-            formControlName="login"
+            formControlName="usuario"
             type="text"
-
           />
         </ion-item>
         <p>
-          {{registerForm.get('login')?.errors?.['minlength'] ? 'CPF/CNPJ
+          {{registerForm.get('usuario')?.errors?.['minlength'] ? 'CPF/CNPJ
           inválido' : ''}}
         </p>
         <ion-item>
           <ion-input
             labelPlacement="floating"
             label="Telefone"
-            formControlName="phone"
+            formControlName="telefone"
             [maskito]="maskitoPhoneOptions"
             [maskitoElement]="predicate"
           />
         </ion-item>
         <p>
-          {{registerForm.get('phone')?.errors?.['minlength'] ? 'Telefone
+          {{registerForm.get('telefone')?.errors?.['minlength'] ? 'Telefone
           inválido' : ''}}
         </p>
+        <ion-item>
+          <ion-input
+            type="text"
+            labelPlacement="floating"
+            label="CPF/CNPJ"
+            formControlName="cpfcnpj"
+            maxlenght=""
+          />
+        </ion-item>
         <ion-item>
           <ion-input
             type="password"
             labelPlacement="floating"
             label="Senha"
-            formControlName="password"
+            formControlName="senha"
             maxlength="8"
           />
         </ion-item>
         <p>
-          {{registerForm.get('password')?.errors?.['minlength'] ? 'minimo 8
+          {{registerForm.get('senha')?.errors?.['minlength'] ? 'minimo 8
           caracteres' : ''}}
         </p>
         <ion-item>
@@ -82,8 +90,8 @@
         </ion-item>
         <span
           >{{registerForm.get('confirmPassword')?.errors?.['minlength'] ?
-          'minimo 8 caracteres' : ''}}</span
-        >
+          'minimo 8 caracteres' : ''}}
+        </span>
         <p>
           {{registerForm.get('confirmPassword')?.errors?.['passwordMatch'] &&
           'As senhas devem ser iguais'}}

@@ -21,8 +21,7 @@
             class="input-message-error"
             *ngIf="loginForm.get('login')?.errors && loginForm.get('login')?.dirty"
           >
-            {{loginForm.get('login')?.errors?.['minlength'] ? 'CPF/CNPJ
-            inválido' : 'máximo 14 caracteres'}}
+            {{loginForm.get('login')?.errors?.['minlength'] ?  'minimo 3 caracteres' : ""}}
           </p>
           <ion-item>
             <ion-input

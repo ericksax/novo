@@ -5,7 +5,6 @@ import { environment } from 'src/environments/environment';
 import { UserResponse } from '../types/user-request';
 import { Observable, catchError, of } from 'rxjs';
 import { presentToast } from '../helpers/toast';
-import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -17,7 +16,6 @@ export class LoginService {
 
   constructor(
     private httpClient: HttpClient,
-    private toastController: ToastController,
     private router: Router,
   ) {}
 
@@ -29,26 +27,25 @@ export class LoginService {
       senha: password
     }
 
-    return this.httpClient.post<LoginResponse>(`${baseApiUrl}/login`, JSON.stringify(data))
+    return this.httpClient.post<LoginResponse>(`${baseApiUrl}/doLogin.php`, data)
     .pipe(
       catchError((error, caught: Observable<LoginResponse>) => {
         if (error.status === 401) {
-          presentToast(this.toastController, 'top', 'Login ou senha inválidos!!', 'danger');
+          presentToast('Login ou senha inválidos!!', 'short', 'top');
         } else if (error.status === 404) {
-          presentToast(this.toastController, 'top', 'Usuario não encontrado!!', 'danger');
+          presentToast('Usuario não encontrado!!','short', 'top');
         } else {
           presentToast(
-            this.toastController,
-            'top',
             'Ocorreu um erro. Tente novamente mais tarde.',
-            'danger'
+            'short',
+            'top',
           );
         }
         return of(null);
       }),
     ).subscribe((result) => {
       if (result && result.token) {
-        presentToast(this.toastController, 'bottom', 'Login efetuado com sucesso!!', 'success')
+        presentToast('Login efetuado com sucesso!!', 'short', 'bottom');
         this.setToken(result.token)
         this.setUser(result.user)
         this.router.navigate(['/home'])

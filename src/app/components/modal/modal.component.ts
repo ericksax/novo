@@ -112,23 +112,23 @@ export class ModalComponent  implements OnInit {
       const formData = new FormData();
       formData.append('recebedor_nome', this.formSendPhoto.value.name);
       formData.append('recebedor_documento', this.formSendPhoto.value.document);
+      formData.append('id', this.documentId);
       formData.append('file', blob, this.images[0].name);
       this.uploadData(formData)
     }
 
     async uploadData(formData: FormData) {
 
-      this.documentService.updateDocument(formData, this.documentId).pipe(
+      this.documentService.updateDocument(formData).pipe(
         catchError(error => {
           if(error.status === 400) {
-            presentToast(this.toastController, 'top', '', 'danger')
+            presentToast('Não foi possível atualizar o documento', 'short','top')
           }
           console.error(error)
           throw new Error('Ocorreu um erro')
         })
       ).subscribe(
-        resut =>  {
-          console.log(resut)
+        result =>  {
           this.notifyParent()
         },
       )
@@ -141,7 +141,6 @@ export class ModalComponent  implements OnInit {
     const image = await Camera.getPhoto({
       quality: 90,
       resultType: CameraResultType.Uri,
-      source: CameraSource.Photos,
       promptLabelPicture: 'Tirar foto',
       promptLabelPhoto: 'Carregar imagem',
       promptLabelCancel: 'Cancelar',
@@ -190,7 +189,6 @@ export class ModalComponent  implements OnInit {
           this.loadFileData(result.files.map((x) => x.name));
 				},
 				async (err) => {
-          console.log('here: inside Error Load Files')
 					// Folder does not yet exists!
 					await Filesystem.mkdir({
 						path: IMAGE_DIR,
@@ -265,8 +263,6 @@ export class ModalComponent  implements OnInit {
           directory: Directory.Data
         });
       }
-
-      console.log('Todos os arquivos foram excluídos com sucesso!');
     } catch (error) {
       console.error('Erro ao excluir arquivos:', error);
     }

@@ -151,10 +151,9 @@ export class HomePage implements OnInit {
   }
 
   sendCodeToApi() {
-
     this.documentService.readDocument(this.valueInput).pipe(
       catchError(error => {
-        console.error(error)
+
         throw new Error('Ocorreu um erro')
       })
     ).subscribe(

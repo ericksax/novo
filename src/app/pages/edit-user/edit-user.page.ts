@@ -21,7 +21,7 @@ import {
   IonInput,
   IonItem,
   IonList,
-  IonButton
+  IonButton,
 } from '@ionic/angular/standalone';
 import { UserResponse } from 'src/app/types/user-request';
 
@@ -44,7 +44,6 @@ import { UserResponse } from 'src/app/types/user-request';
     ReactiveFormsModule,
   ],
 })
-
 export class EditUserPage implements OnInit {
   formEdit!: FormGroup;
   userId!: number;
@@ -54,14 +53,14 @@ export class EditUserPage implements OnInit {
     private userService: UserService,
     private toastController: ToastController,
     private activatedRoute: ActivatedRoute
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.formEdit = new FormGroup({
       nome_completo: new FormControl('', [Validators.required]),
       telefone: new FormControl('', [Validators.required]),
       usuario: new FormControl('', [Validators.required]),
+      cpfcnpj: new FormControl('', [Validators.required]),
     });
 
     this.activatedRoute.paramMap.subscribe((params) => {
@@ -73,14 +72,13 @@ export class EditUserPage implements OnInit {
         nome_completo: result.nome_completo,
         telefone: result.telefone,
         usuario: result.usuario,
-      })
-
+        cpfcnpj: result.cpfcnpj,
+      });
       this.user = result;
-    })
+    });
   }
 
   submit() {
-
     this.userService
       .updateUser(this.userId, this.formEdit.value)
       .pipe(
@@ -89,26 +87,23 @@ export class EditUserPage implements OnInit {
         })
       )
       .subscribe((result: any) => {
-        if (result.message === "Usário atualizado com sucesso") {
+        if (result.message === 'Usário atualizado com sucesso') {
           presentToast(
-            this.toastController,
-            'top',
             'Usário atualizado com sucesso',
-            'success'
+            'short',
+            'top',
           );
         } else if (result.status === 404) {
           presentToast(
-            this.toastController,
-            'top',
             'Usuario não encontrado',
-            'danger'
+            'short',
+            'top'
           );
         } else {
           presentToast(
-            this.toastController,
-            'top',
             'Ocorreu um erro. Tente novamente mais tarde',
-            'danger'
+            'short',
+            'top',
           );
         }
       });

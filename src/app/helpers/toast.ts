@@ -1,16 +1,14 @@
+import { Toast } from '@capacitor/toast';
 
-export const presentToast = async (
-  toastController: any,
-  position: 'top' | 'middle' | 'bottom',
-  message: string,
-  type: 'danger' | 'success')  => {{
-    const toast = await toastController.create({
-      message: message,
-      duration: 1500,
-      color: type,
-      position: position,
-    });
-
-    await toast.present();
-  }
+export async function presentToast(
+  text: string,
+  duration: "short" | "long" | undefined,
+  position: "top" | "center" | "bottom" | undefined
+) {
+  await Toast.show({
+    text,
+    duration,
+    position,
+  });
 }
+

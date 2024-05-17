@@ -11,7 +11,6 @@ import { Observable, catchError, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { presentToast } from 'src/app/helpers/toast';
 
-
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -31,18 +30,19 @@ export class RegisterPage implements OnInit {
 
    ngOnInit() {
     this.registerForm = this.formBuilder.group({
-      name: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      login: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required, Validators.minLength(8)]),
+      nome_completo: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      usuario: new FormControl('', [Validators.required]),
+      senha: new FormControl('', [Validators.required, Validators.minLength(8)]),
       confirmPassword: new FormControl('', [Validators.required, Validators.minLength(8)]),
-      phone: new FormControl('', [Validators.required, Validators.minLength(11)])
+      telefone: new FormControl('', [Validators.required, Validators.minLength(11)]),
+      cpfcnpj: new FormControl('', [Validators.required]),
     }, {
       validator: this.passwordMatchValidator
     })
   }
 
   passwordMatchValidator(control: AbstractControl): { [key: string]: boolean } | null {
-    const password = control.get('password')!.value;
+    const password = control.get('senha')!.value;
     const confirmPassword = control.get('confirmPassword')!.value;
       if (password !== confirmPassword) {
         control.get('confirmPassword')!.setErrors({ passwordMatch: true });
@@ -72,43 +72,40 @@ export class RegisterPage implements OnInit {
 
   onSubmit(event: any) {
     event.preventDefault();
-    const {name, login, password, phone} = this.registerForm.value
-
+    const { nome_completo, usuario, senha, telefone, cpfcnpj } = this.registerForm.value
     try {
       this.userService.create({
-        name,
-        login,
-        password,
-        phone
+        nome_completo,
+        usuario,
+        senha,
+        telefone,
+        cpfcnpj
       }).pipe(
         catchError((error, caught: Observable<any>) => {
             if (error.status === 409) {
-              presentToast(this.toastController,'top', 'Usuário já existe!!', 'danger');
+              presentToast('Usuário já existe!!', 'short','top',);
             } else {
               presentToast(
-                this.toastController,
-                'top',
                 'Ocorreu um erro. Tente novamente mais tarde.',
-                'danger'
+                'short',
+                'top'
               );
             }
             return of(null);
           }),
 
       ).subscribe( (result: any) => {
-        console.log(result)
           if(result && result.status === 201) {
             presentToast(
-              this.toastController,
-              'top',
               'Usário criado com sucesso!!',
-              'success'
+              'short',
+              'top',
             );
           }
         },
       )
     } catch (error) {
-      presentToast(this.toastController, 'top', 'Erro interno, tente novamente!!', 'danger')
+      presentToast('Erro interno, tente novamente!!', 'short', 'top',)
     }
       this.registerForm.reset();
   };
@@ -120,7 +117,7 @@ export class RegisterPage implements OnInit {
   onInputChangeCompleteName(event: any) {
     const fullName = event.target.value;
     const login = this.loginGenerator(fullName);
-    this.registerForm.get('login')?.setValue(login);
+    this.registerForm.get('usuario')?.setValue(login);
   }
 
 

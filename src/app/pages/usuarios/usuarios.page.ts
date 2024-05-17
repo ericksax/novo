@@ -1,7 +1,7 @@
 import { Component, OnInit, Signal, WritableSignal, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar} from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonBackButton, IonButtons} from '@ionic/angular/standalone';
 import { CardUsuariosComponent } from 'src/app/components/cardUsuarios/card-usuarios.component';
 import { UserService } from 'src/app/services/user.service';
 import { catchError } from 'rxjs';
@@ -17,6 +17,8 @@ import { UserResponse } from 'src/app/types/user-request';
     IonHeader,
     IonTitle,
     IonToolbar,
+    IonButtons,
+    IonBackButton,
     CommonModule,
     FormsModule,
     CardUsuariosComponent
