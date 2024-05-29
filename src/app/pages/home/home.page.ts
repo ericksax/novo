@@ -3,6 +3,13 @@ import { Router, RouterLink, RouterLinkActive} from '@angular/router';
 import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { AlertController } from '@ionic/angular';
 import { ModalComponent } from '../../components/modal/modal.component';
+import { DocumentInfoComponent } from '../../components/document-info/document-info.component';
+import { DocumentResponse } from 'src/app/types/document.type';
+import { DocumentService } from 'src/app/services/document.service';
+import { catchError } from 'rxjs';
+import { LoginService } from 'src/app/services/login.service';
+import { SideMenuComponent } from 'src/app/components/side-menu/side-menu.component';
+import { CommonModule } from '@angular/common';
 import {
   IonModal,
   IonHeader,
@@ -30,12 +37,6 @@ import {
   IonCardSubtitle,
   IonThumbnail
 } from '@ionic/angular/standalone';
-import { DocumentResponse } from 'src/app/types/document.type';
-import { DocumentService } from 'src/app/services/document.service';
-import { catchError } from 'rxjs';
-import { LoginService } from 'src/app/services/login.service';
-import { SideMenuComponent } from 'src/app/components/side-menu/side-menu.component';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -70,6 +71,7 @@ import { CommonModule } from '@angular/common';
     RouterLink,
     RouterLinkActive,
     ModalComponent,
+    DocumentInfoComponent,
     SideMenuComponent,
     CommonModule
   ],
@@ -111,12 +113,12 @@ export class HomePage implements OnInit {
     const { barcodes } = await BarcodeScanner.scan();
 
     this.barcodes.push(...barcodes);
-    this.valueInput = '';
-    this.valueInput = barcodes[0].displayValue;
+    this.nfKey = '';
+    this.nfKey = barcodes[0].displayValue;
 
 
-    if (barcodes[0].displayValue) {
-      this.sendCodeToApi()
+    if (this.nfKey) {
+      this.sendCodeToApiByKey()
     }
   }
 
@@ -129,12 +131,11 @@ export class HomePage implements OnInit {
     const { barcodes } = await BarcodeScanner.scan();
 
     this.barcodes.push(...barcodes);
-    this.nfKey = '';
-    this.nfKey = barcodes[0].displayValue;
+    this.valueInput = '';
+    this.valueInput = barcodes[0].displayValue;
 
-
-    if (barcodes[0].displayValue) {
-      this.sendCodeToApiByKey()
+    if (this.valueInput) {
+      this.sendCodeToApi()
     }
   }
 
@@ -151,6 +152,7 @@ export class HomePage implements OnInit {
   }
 
   sendCodeToApi() {
+
     this.documentService.readDocument(this.valueInput).pipe(
       catchError(error => {
 
@@ -198,10 +200,8 @@ export class HomePage implements OnInit {
         } else {
           this.updateComplete = false
         }
-
       })
   }
-
 
   async requestPermissions(): Promise<boolean> {
     const { camera } = await BarcodeScanner.requestPermissions();
@@ -220,14 +220,28 @@ export class HomePage implements OnInit {
   changeValueInput(event: any) {
     const { value } = event.target
     this.valueInput = value.trim();
+
+    if (!this.valueInput) {
+      this.document = {} as DocumentResponse
+    }
   }
 
   changeValueInputKey(event: any) {
     const { value } = event.target
     this.nfKey = value.trim();
+
+    if (!this.nfKey) {
+      this.document = {} as DocumentResponse
+    }
   }
 
   handleUpdateDocument() {
     this.sendCodeToApi()
+  }
+
+  handleClearCode() {
+    this.nfKey = ''
+    this.valueInput = ''
+    this.document = {} as DocumentResponse
   }
 }

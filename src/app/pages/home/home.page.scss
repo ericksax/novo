@@ -23,7 +23,7 @@ ion-content {
       display: flex;
       border-bottom: 1px solid gray;
       font-size: 1.2rem;
-
+      border-bottom-color: #dedede;
     }
   }
 
@@ -34,17 +34,19 @@ ion-content {
       margin-top: 1rem;
       font-size: 1.2rem;
       font-weight: 700;
+      color: #0b5c69
     }
   }
 }
 
 ion-toolbar {
-  --background: linear-gradient(196deg, rgb(29, 209, 206) 0%, rgb(3, 47, 54) 100%);
+  --background: linear-gradient(196deg, rgb(29, 209, 206) 0%, #032f36 100%);
   --color: rgb(237, 237, 237);
 }
 
 ion-button {
   --background: rgb(4, 129, 129);
+  font-weight: bold;
 }
 
 ion-card {
@@ -58,41 +60,7 @@ ion-card {
   }
 }
 
-.recipient-container-success {
-  background-color: rgba(127, 255, 242, 0.211);
-  display: flex;
-  flex-direction: column;
-  margin: 1rem;
 
-  ion-card-content {
-    display: flex;
-    flex-direction: column;
-    // padding: 1rem;
-  }
+#open-modal {
+  margin-top: 1.6rem;
 }
-
-.recipient-container {
-  background-color: rgba(255, 127, 127, 0.211);
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1rem;
-}
-
-
-.receipt-content {
-  display: flex;
-  flex-direction: row !important;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  // padding: 1rem;
-  gap: 1rem;
-
-  div {
-    all: unset;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-}
-

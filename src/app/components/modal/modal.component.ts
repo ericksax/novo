@@ -6,7 +6,6 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { catchError } from 'rxjs';
 import { Platform } from '@ionic/angular';
 import { presentToast } from 'src/app/helpers/toast';
-import { ToastController } from '@ionic/angular'
 import {
   IonModal,
   IonHeader,
@@ -66,9 +65,9 @@ interface LocalFile {
 export class ModalComponent  implements OnInit {
   formSendPhoto! : FormGroup;
   @Input() documentId!: string
+  @ViewChild(IonModal) modal!: IonModal;
   imageUrl!: string;
   imagePath: any;
-  @ViewChild(IonModal) modal!: IonModal;
   images: LocalFile[] = [];
   formData!: FormData;
   message =
@@ -83,7 +82,6 @@ export class ModalComponent  implements OnInit {
   constructor(
     private documentService: DocumentService,
     private plt: Platform,
-    private toastController: ToastController
   ) { }
 
   async ngOnInit() {
@@ -141,6 +139,7 @@ export class ModalComponent  implements OnInit {
     const image = await Camera.getPhoto({
       quality: 90,
       resultType: CameraResultType.Uri,
+      source: CameraSource.Prompt,
       promptLabelPicture: 'Tirar foto',
       promptLabelPhoto: 'Carregar imagem',
       promptLabelCancel: 'Cancelar',

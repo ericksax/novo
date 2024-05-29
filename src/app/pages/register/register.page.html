@@ -59,16 +59,19 @@
         </p>
         <ion-item>
           <ion-input
-            type="text"
+            (ionInput)="onCPFInputChange($event)"
             labelPlacement="floating"
             label="CPF/CNPJ"
             formControlName="cpfcnpj"
             maxlenght=""
+            [maskito]="maskitoOptions"
+            [maskitoElement]="predicate"
           />
         </ion-item>
         <ion-item>
           <ion-input
             type="password"
+            placeholder="A senha deve ter pelo menos 8 caracteres"
             labelPlacement="floating"
             label="Senha"
             formControlName="senha"

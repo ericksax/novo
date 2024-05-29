@@ -56,19 +56,19 @@ export class RegisterPage implements OnInit {
       mask: ['(', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/],
     };
 
-  //essa função serve paramudar o formato do campo(máscara) de acordo com o tipo de documento
-  // changeMaskCpfAndCnpj() {
-  //  return  this.quantity.length > 13 ? {
-  //     mask:  [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/],
-  //   } : {
-  //     mask:  [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/],
-  //   };
-  // }
+ // essa função serve para mudar o formato do campo(máscara) de acordo com o tipo de documento
+  changeMaskCpfAndCnpj() {
+   return  this.quantity.length > 13 ? {
+      mask:  [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/],
+    } : {
+      mask:  [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/],
+    };
+  }
 
-  // onLoginChange(event: any){
-  //   this.quantity = event.target.value
-  //   this.maskitoOptions = this.changeMaskCpfAndCnpj()
-  // }
+  onCPFInputChange(event: any){
+    this.quantity = event.target.value
+    this.maskitoOptions = this.changeMaskCpfAndCnpj()
+  }
 
   onSubmit(event: any) {
     event.preventDefault();
