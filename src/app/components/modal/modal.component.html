@@ -6,13 +6,17 @@
           <ion-button (click)="cancel()">Cancelar</ion-button>
         </ion-buttons>
         <ion-buttons slot="end" class="ion-align-items-center">
-          <!-- <ion-button (click)="confirm()" [strong]="true"
-            >Confirmar</ion-button
-          > -->
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding" class="">
+     <ion-card class="modal-card-info" id="gost-warning">
+        <ion-card-content>
+          <ion-card-title>Atenção</ion-card-title>
+          <p>Preencha os dados do recbedor corretamente e anexe a foto contendo o canhoto do documento.</p>
+        </ion-card-content>
+      </ion-card>
+
       <ion-card>
         <ion-card-content>
           <form [formGroup]="formSendPhoto" (ngSubmit)="submit($event)">
@@ -55,15 +59,16 @@
                     size="large"
                     class="ion-padding-horizontal"
                   ></ion-icon>
-                  tirar foto
+                  {{ imageUrl ? 'repetir foto' : 'tirar foto'}}
                 </ion-button>
 
                 @if(imageUrl) {
-                  <ion-button type="submit">
+                  <ion-button type="submit" [disabled]="formSendPhoto.invalid">
                     enviar
                     <ion-icon
                       slot="end"
                       name="paper-plane-outline"
+
                     ></ion-icon>
                   </ion-button>
                 }

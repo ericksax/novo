@@ -15,23 +15,25 @@ ion-list-header {
   }
 }
 
-ion-list {
-  padding: 0 1rem;
-  width: 100%;
+main {
+  padding: 0;
   max-width: 800px;
   margin: 0 auto;
+
+  div {
+    padding: 0.5rem;
+  }
 }
 
 .recipient-container-success {
   background-color: rgba(127, 255, 242, 0.211);
   display: flex;
   flex-direction: column;
-  margin: 1rem;
+  margin-top: 1rem;
 
   ion-card-content {
     display: flex;
     flex-direction: column;
-    // padding: 1rem;
   }
 }
 
@@ -40,6 +42,7 @@ ion-list {
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
+  margin-top: 1rem;
 }
 
 
@@ -49,7 +52,6 @@ ion-list {
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: flex-end;
-  // padding: 1rem;
   gap: 1rem;
 
   div {
@@ -59,3 +61,4 @@ ion-list {
     gap: 1rem;
   }
 }
+

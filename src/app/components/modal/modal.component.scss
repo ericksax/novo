@@ -30,3 +30,13 @@ ion-toolbar {
 div {
   display: flex;
 }
+
+.modal-card-info {
+  background-color: rgba(255, 255, 0, 0.207);
+  transition: opacity 3s ease-in-out; /* Adjust duration and easing as needed */
+  opacity: 1; /* Initial opacity */
+}
+
+.modal-card-info.hidden {
+  opacity: 0; /* Hidden state opacity */
+}

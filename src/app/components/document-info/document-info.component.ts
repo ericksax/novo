@@ -51,7 +51,6 @@ export class DocumentInfoComponent  implements OnInit {
   @Input() dataEntrega: string = '';
   @Input() canOpenModal!: boolean;
   @Input() updateComplete!: boolean;
-  @Input() handleUpdateDocument!: () => void;
   @Output() clearInputCode = new EventEmitter();
 
   constructor() { }

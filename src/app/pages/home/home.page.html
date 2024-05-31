@@ -10,8 +10,9 @@
   </ion-header>
 
   <ion-content [fullscreen]="true" class="ion-padding">
-    <ion-list>
-      <ion-card class="ion-padding">
+    <!-- <ion-list> -->
+      <header>
+      <section>
         <div>
           <ion-button expand="block" (click)="scan()"
             ><ion-icon name="barcode-outline"></ion-icon>
@@ -35,8 +36,9 @@
             value="{{valueInput}}"
           />
         </div>
-      </ion-card>
-    </ion-list>
+      </section>
+    </header>
+    <!-- </ion-list> -->
     @if(isLoading) {
       <div class="ion-justify-content-center ion-margin-top">
         <ion-label>Carregando...</ion-label>
@@ -47,11 +49,13 @@
       <app-document-info
       (clearInputCode)="handleClearCode()"
       [document]="document"
+      [dataEntrega]="dataEntrega"
       [updateComplete]="updateComplete"
       [canOpenModal]="canOpenModal"
-      [handleUpdateDocument]="handleUpdateDocument"
       >
     </app-document-info>
+    } @else {
+      <app-empty-document></app-empty-document>
     }
   </ion-content>
 </div>

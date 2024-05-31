@@ -15,6 +15,7 @@ import {
   IonTitle,
   IonContent,
   IonMenuButton,
+  IonCardTitle,
   IonMenu,
   IonButton,
   IonButtons,
@@ -57,6 +58,7 @@ interface LocalFile {
     IonItem,
     IonIcon,
     IonCard,
+    IonCardTitle,
     IonCardContent,
     IonInput,
     IonSelect,
@@ -74,12 +76,6 @@ export class ModalComponent  implements OnInit {
   message =
     'This modal example uses triggers to automatically open a modal when the button is clicked.';
 
-  @Output() update = new EventEmitter<string>();
-
-  notifyParent() {
-    this.update.emit();
-  }
-
   constructor(
     private documentService: DocumentService,
     private plt: Platform,
@@ -87,16 +83,19 @@ export class ModalComponent  implements OnInit {
 
   async ngOnInit() {
     this.formSendPhoto = new FormGroup({
-      name: new FormControl('', [Validators.required]),
-      document: new FormControl('', [Validators.required]),
-      photo: new FormControl('', [Validators.required]),
+      name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      document: new FormControl('', [Validators.required, Validators.minLength(8)]),
+      // photo: new FormControl('', [Validators.required]),
     })
 
     this.loadFiles();
 
     setTimeout(() => {
-      this.inputName.setFocus();
-    }, 150);
+      const myDiv = document.getElementById('gost-warning');
+      if (myDiv) {
+        myDiv.classList.add('hidden');
+      }
+    }, 3000); //
   }
 
   cancel() {
@@ -106,7 +105,7 @@ export class ModalComponent  implements OnInit {
   confirm() {
     this.modal.dismiss(null,
       'confirm');
-    }
+  }
 
     async submit($event: Event) {
       $event.preventDefault()
@@ -132,10 +131,10 @@ export class ModalComponent  implements OnInit {
         })
       ).subscribe(
         result =>  {
-          this.notifyParent()
+          presentToast('Documento atualizado com sucesso', 'short','top')
         },
       )
-      this.cancel()
+      this.confirm()
     }
 
   takePicture = async () => {

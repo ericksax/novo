@@ -39,6 +39,7 @@ import {
   IonSpinner,
 } from '@ionic/angular/standalone';
 import { presentToast } from 'src/app/helpers/toast';
+import { EmptyDocumentComponent } from 'src/app/components/empty-document/empty-document.component';
 
 
 @Component({
@@ -77,6 +78,7 @@ import { presentToast } from 'src/app/helpers/toast';
     IonSpinner,
     DocumentInfoComponent,
     SideMenuComponent,
+    EmptyDocumentComponent,
     CommonModule
   ],
 })
