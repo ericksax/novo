@@ -1,0 +1,15 @@
+.card-container {
+  margin: 0 auto;
+  margin-top: 2rem;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.card-container ion-button {
+  float: right;
+  margin-right: 1rem;
+}
+.card-container ion-card-title {
+  text-transform: uppercase;
+}/*# sourceMappingURL=card-usuarios.component.css.map */

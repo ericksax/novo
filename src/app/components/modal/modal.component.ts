@@ -66,6 +66,7 @@ export class ModalComponent  implements OnInit {
   formSendPhoto! : FormGroup;
   @Input() documentId!: string
   @ViewChild(IonModal) modal!: IonModal;
+  @ViewChild('inputName') inputName!: IonInput;
   imageUrl!: string;
   imagePath: any;
   images: LocalFile[] = [];
@@ -92,6 +93,10 @@ export class ModalComponent  implements OnInit {
     })
 
     this.loadFiles();
+
+    setTimeout(() => {
+      this.inputName.setFocus();
+    }, 150);
   }
 
   cancel() {
@@ -139,7 +144,7 @@ export class ModalComponent  implements OnInit {
     const image = await Camera.getPhoto({
       quality: 90,
       resultType: CameraResultType.Uri,
-      source: CameraSource.Prompt,
+      source: CameraSource.Camera,
       promptLabelPicture: 'Tirar foto',
       promptLabelPhoto: 'Carregar imagem',
       promptLabelCancel: 'Cancelar',

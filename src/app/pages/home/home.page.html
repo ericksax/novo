@@ -37,6 +37,12 @@
         </div>
       </ion-card>
     </ion-list>
+    @if(isLoading) {
+      <div class="ion-justify-content-center ion-margin-top">
+        <ion-label>Carregando...</ion-label>
+        <ion-spinner></ion-spinner>
+      </div>
+    }
     @if(document.iddocumento) {
       <app-document-info
       (clearInputCode)="handleClearCode()"

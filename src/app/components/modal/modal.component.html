@@ -19,6 +19,7 @@
             <ion-list>
               <ion-item>
                 <ion-input
+                  [name]="inputName"
                   autoFocus
                   label="Nome Recebedor"
                   labelPlacement="floating"
@@ -30,7 +31,6 @@
               <ion-item>
                 <ion-select label="Documento" placeholder="Selecione">
                   <ion-select-option value="1">CPF</ion-select-option>
-                  <ion-select-option value="2">CNPJ</ion-select-option>
                   <ion-select-option value="3">RG</ion-select-option>
                 </ion-select>
               </ion-item>

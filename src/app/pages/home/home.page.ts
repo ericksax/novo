@@ -35,8 +35,11 @@ import {
   IonCardHeader,
   IonCardTitle,
   IonCardSubtitle,
-  IonThumbnail
+  IonThumbnail,
+  IonSpinner,
 } from '@ionic/angular/standalone';
+import { presentToast } from 'src/app/helpers/toast';
+
 
 @Component({
   selector: 'app-home',
@@ -71,6 +74,7 @@ import {
     RouterLink,
     RouterLinkActive,
     ModalComponent,
+    IonSpinner,
     DocumentInfoComponent,
     SideMenuComponent,
     CommonModule
@@ -88,6 +92,8 @@ export class HomePage implements OnInit {
 
   canOpenModal!: boolean;
   updateComplete!: boolean;
+
+  isLoading!:boolean;
 
   constructor(
     private route: Router,
@@ -152,15 +158,24 @@ export class HomePage implements OnInit {
   }
 
   sendCodeToApi() {
-
-    this.documentService.readDocument(this.valueInput).pipe(
+    this.isLoading = true
+    this.documentService.readDocument(this.valueInput)!.pipe(
       catchError(error => {
+        if(error.status === 404) {
+          presentToast('O documento não foi encontrado', 'short', 'top');
+          this.isLoading = false
+        }
 
-        throw new Error('Ocorreu um erro')
+        presentToast('Ocorreu um erro. Verifique o código ou chave e tente novamente.', 'short', 'top');
+        this.isLoading = false
+        throw new Error('Ocorreu um erro ao ler o documento');
       })
+
+
     ).subscribe(
       result =>  {
-        this.document = result
+        this.document = result as DocumentResponse
+
         this.dataEntrega = Intl.DateTimeFormat('pt-BR').format(new Date(this.document.data_atualizacao))
 
         if(this.document.iddocumento!== '') {
@@ -174,14 +189,23 @@ export class HomePage implements OnInit {
         } else {
           this.updateComplete = false
         }
+
+        this.isLoading = false
       },
     )
   }
 
   sendCodeToApiByKey() {
+    this.isLoading = true
     this.documentService.readDocumentByKey(this.nfKey).pipe(
       catchError(error => {
-        console.error(error)
+        if(error.status === 404) {
+          this.isLoading = false
+          presentToast('O documento não foi encontrado', 'short', 'top');
+        }
+
+        presentToast('Ocorreu um erro. Verifique o código ou chave e tente novamente.', 'short', 'top');
+        this.isLoading = false
         throw new Error('Ocorreu um erro')
       })
     ).subscribe(
@@ -200,6 +224,8 @@ export class HomePage implements OnInit {
         } else {
           this.updateComplete = false
         }
+
+        this.isLoading = false
       })
   }
 
@@ -223,6 +249,7 @@ export class HomePage implements OnInit {
 
     if (!this.valueInput) {
       this.document = {} as DocumentResponse
+      this.isLoading = false
     }
   }
 
@@ -232,6 +259,7 @@ export class HomePage implements OnInit {
 
     if (!this.nfKey) {
       this.document = {} as DocumentResponse
+      this.isLoading = false
     }
   }
 

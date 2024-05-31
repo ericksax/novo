@@ -1,0 +1,29 @@
+ion-button {
+  --background: rgb(5, 165, 165);
+}
+
+ion-toolbar {
+  --background: linear-gradient(196deg, rgb(29, 209, 206) 0%, rgb(3, 47, 54) 100%);
+  --color: rgb(237, 237, 237);
+}
+ion-toolbar ion-button {
+  font-weight: 600;
+}
+
+.container-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px dashed rgb(5, 165, 165);
+  min-height: 360px;
+  margin: 0 auto;
+  margin-top: 1rem;
+}
+
+.container-buttons {
+  margin-top: 1rem;
+}
+
+div {
+  display: flex;
+}/*# sourceMappingURL=modal.component.css.map */
