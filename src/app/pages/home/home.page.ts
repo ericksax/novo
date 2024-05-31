@@ -236,7 +236,10 @@ export class HomePage implements OnInit {
   }
 
   handleUpdateDocument() {
-    this.sendCodeToApi()
+    if(this.valueInput !== '') {
+      this.sendCodeToApi()
+    }
+    this.sendCodeToApiByKey()
   }
 
   handleClearCode() {

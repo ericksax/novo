@@ -42,12 +42,10 @@
       (clearInputCode)="handleClearCode()"
       [document]="document"
       [updateComplete]="updateComplete"
-      [canOpenModal]="canOpenModal">
+      [canOpenModal]="canOpenModal"
+      [handleUpdateDocument]="handleUpdateDocument"
+      >
     </app-document-info>
     }
-    <app-modal
-    (update)="handleUpdateDocument()"
-    documentId="{{document.iddocumento}}"
-  ></app-modal>
   </ion-content>
 </div>

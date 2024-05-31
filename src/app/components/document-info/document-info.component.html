@@ -9,7 +9,7 @@
           <ion-item>
             <ion-input
               [readonly]="true"
-              value="{{document.nome_completo}}"
+              value="{{ document.nome_completo }}"
               label="Nome"
             ></ion-input>
           </ion-item>
@@ -18,7 +18,7 @@
             <ion-input
               label="Telefone:"
               [readonly]="true"
-              value="{{document.telefone}}"
+              value="{{ document.telefone }}"
             ></ion-input>
           </ion-item>
         </ion-col>
@@ -36,7 +36,7 @@
             <ion-input
               label="Nome:"
               [readonly]="true"
-              value="{{document.nome_destinatario}}"
+              value="{{ document.nome_destinatario }}"
             ></ion-input>
           </ion-item>
         </ion-col>
@@ -45,7 +45,7 @@
             <ion-input
               label="Data:"
               [readonly]="true"
-              value="{{dataEntrega}}"
+              value="{{ dataEntrega }}"
             ></ion-input>
           </ion-item>
         </ion-col>
@@ -58,7 +58,7 @@
               label="CPF/CNPJ:"
               type="data"
               [readonly]="true"
-              value="{{document.recebedor_documento}}"
+              value="{{ document.recebedor_documento }}"
             ></ion-input>
           </ion-item>
         </ion-col>
@@ -67,7 +67,7 @@
             <ion-input
               label="Telefone:"
               [readonly]="true"
-              value="{{document.tel_destinatario}}"
+              value="{{ document.tel_destinatario }}"
             ></ion-input>
           </ion-item>
         </ion-col>
@@ -79,7 +79,7 @@
             <ion-input
               label="Endereço:"
               [readonly]="true"
-              value="{{document.end_logradouro}}"
+              value="{{ document.end_logradouro }}"
             ></ion-input>
           </ion-item>
         </ion-col>
@@ -88,7 +88,7 @@
             <ion-input
               label="Número:"
               [readonly]="true"
-              value="{{document.end_numero}}"
+              value="{{ document.end_numero }}"
             ></ion-input>
           </ion-item>
         </ion-col>
@@ -100,7 +100,7 @@
             <ion-input
               label="CEP:"
               [readonly]="true"
-              value="{{document.end_cep}}"
+              value="{{ document.end_cep }}"
             ></ion-input>
           </ion-item>
         </ion-col>
@@ -109,7 +109,7 @@
             <ion-input
               label="Cidade:"
               [readonly]="true"
-              value="{{document.end_cidade}}"
+              value="{{ document.end_cidade }}"
             ></ion-input>
           </ion-item>
         </ion-col>
@@ -120,27 +120,27 @@
               type="text"
               label="UF:"
               [readonly]="true"
-              value="{{document.uf_destinatario}}"
+              value="{{ document.uf_destinatario }}"
             ></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
+      <app-modal
+        (update)="handleUpdateDocument()"
+        documentId="{{ document.iddocumento }}"
+      ></app-modal>
       <ion-button
         id="open-modal"
         expand="block"
         [disabled]="!canOpenModal"
         [color]="updateComplete ? 'warning' : ''"
-        >
-        {{updateComplete ? 'Editar Entrega' : 'Seguir com entrega'}}
-      </ion-button>
-      <ion-button
-      expand="block"
-      (click) = "clearData()"
-
       >
-      <ion-icon slot="start" name="duplicate-outline"></ion-icon>
-      novo
-    </ion-button>
+        {{ updateComplete ? "Editar Entrega" : "Seguir com entrega" }}
+      </ion-button>
+      <ion-button expand="block" (click)="clearData()">
+        <ion-icon slot="start" name="duplicate-outline"></ion-icon>
+        novo
+      </ion-button>
     </ion-card-content>
   </ion-card>
 
@@ -152,13 +152,13 @@
     </ion-card-header>
     <ion-card-content class="receipt-content">
       <div>
-        <span>Recebida por: {{document.recebedor_nome}}</span>
-        <span>Documento: {{document.recebedor_documento}}</span>
-        <span>Data: {{dataEntrega}}</span>
+        <span>Recebida por: {{ document.recebedor_nome }}</span>
+        <span>Documento: {{ document.recebedor_documento }}</span>
+        <span>Data: {{ dataEntrega }}</span>
       </div>
-      <a href="{{document.foto_canhoto}}">
+      <a href="{{ document.foto_canhoto }}">
         <ion-thumbnail>
-          <ion-img src="{{document.foto_canhoto}}" />
+          <ion-img src="{{ document.foto_canhoto }}" />
         </ion-thumbnail>
       </a>
     </ion-card-content>
