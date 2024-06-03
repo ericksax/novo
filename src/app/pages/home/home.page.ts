@@ -40,6 +40,7 @@ import {
 } from '@ionic/angular/standalone';
 import { presentToast } from 'src/app/helpers/toast';
 import { EmptyDocumentComponent } from 'src/app/components/empty-document/empty-document.component';
+import { EventService } from 'src/app/services/event.service';
 
 
 @Component({
@@ -101,7 +102,8 @@ export class HomePage implements OnInit {
     private route: Router,
     private alertController: AlertController,
     private documentService: DocumentService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private eventService: EventService
   ) {}
 
   ngOnInit() {
@@ -110,6 +112,16 @@ export class HomePage implements OnInit {
     });
 
     if(!this.loginService.isLogged()) this.route.navigate(['/login']);
+
+    this.eventService.documentUpdate$.subscribe(updateDocument => {
+      this.document = updateDocument
+
+      if(this.nfKey) {
+        this.sendCodeToApiByKey()
+      }
+
+      this.sendCodeToApi()
+    })
   }
 
   async scan(): Promise<void> {

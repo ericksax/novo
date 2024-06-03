@@ -7,14 +7,15 @@ ion-content {
     max-width: 800px;
     margin: 0 auto;
     margin-bottom: 1rem;
+    background-color: var(--card-background);
+    border-radius: .2rem;
   }
 
   div {
     display: flex;
     margin: 0 auto;
-    padding: .5rem;
+    padding: 1rem;
     gap: 1rem;
-
     ion-button {
       height: 100%;
     }

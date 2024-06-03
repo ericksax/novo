@@ -16,9 +16,11 @@ ion-list-header {
 }
 
 main {
-  padding: 0;
+  padding: 0.3rem;
   max-width: 800px;
   margin: 0 auto;
+
+  background-color: var(--card-background);
 
   div {
     padding: 0.5rem;

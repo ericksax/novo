@@ -28,6 +28,7 @@ import {
   IonSelectOption,
   IonThumbnail
 } from '@ionic/angular/standalone'
+import { EventService } from 'src/app/services/event.service';
 const IMAGE_DIR = 'stored-images';
 
 interface LocalFile {
@@ -79,6 +80,7 @@ export class ModalComponent  implements OnInit {
   constructor(
     private documentService: DocumentService,
     private plt: Platform,
+    private eventService: EventService
   ) { }
 
   async ngOnInit() {
@@ -131,6 +133,7 @@ export class ModalComponent  implements OnInit {
         })
       ).subscribe(
         result =>  {
+          this.eventService.emitDocumentUpdate(result);
           presentToast('Documento atualizado com sucesso', 'short','top')
         },
       )
