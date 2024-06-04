@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, ViewChild, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { DocumentService } from '../../services/document.service'
 import { Filesystem, Directory } from '@capacitor/filesystem';
@@ -29,6 +29,7 @@ import {
   IonThumbnail
 } from '@ionic/angular/standalone'
 import { EventService } from 'src/app/services/event.service';
+import { CommonModule } from '@angular/common';
 const IMAGE_DIR = 'stored-images';
 
 interface LocalFile {
@@ -63,25 +64,30 @@ interface LocalFile {
     IonCardContent,
     IonInput,
     IonSelect,
-    IonSelectOption]
+    IonSelectOption,
+    CommonModule]
 })
-export class ModalComponent  implements OnInit {
+export class ModalComponent  implements OnInit, AfterViewInit {
+  @ViewChild('inputName', { static: false }) inputName!: IonInput;
   formSendPhoto! : FormGroup;
   @Input() documentId!: string
   @ViewChild(IonModal) modal!: IonModal;
-  @ViewChild('inputName') inputName!: IonInput;
   imageUrl!: string;
   imagePath: any;
   images: LocalFile[] = [];
   formData!: FormData;
-  message =
-    'This modal example uses triggers to automatically open a modal when the button is clicked.';
 
   constructor(
     private documentService: DocumentService,
     private plt: Platform,
     private eventService: EventService
   ) { }
+
+  ngAfterViewInit(): void {
+    setTimeout(()=> {
+      this.inputName?.setFocus();
+    }, 1800)
+  }
 
   async ngOnInit() {
     this.formSendPhoto = new FormGroup({

@@ -4,8 +4,7 @@ export type DocumentResponse = {
   numero_documento: string;
   chave_acesso: string;
   nome_destinatario: string;
-  cpf_destinatario: string;
-  cnpj_destinatario: string;
+  cpfcnpj_destinatario: string;
   end_logradouro: string;
   end_numero: string;
   end_complemento: string;

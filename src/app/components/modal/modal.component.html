@@ -23,13 +23,12 @@
             <ion-list>
               <ion-item>
                 <ion-input
-                  [name]="inputName"
-                  autoFocus
                   label="Nome Recebedor"
                   labelPlacement="floating"
                   type="text"
                   placeholder="Nome"
                   formControlName="name"
+                  #inputName
                 ></ion-input>
               </ion-item>
               <ion-item>
