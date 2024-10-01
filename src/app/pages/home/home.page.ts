@@ -86,10 +86,13 @@ import { EventService } from 'src/app/services/event.service';
 export class HomePage implements OnInit {
   isSupported = false;
   barcodes: Barcode[] = [];
-  valueInput: string = '';
   modal!: IonModal;
   dataEntrega!: string
+  valueInput: string = '';
   nfKey!: string
+
+  qrValue: string = ''
+  NFvalue: string = ''
 
   document: DocumentResponse = {} as DocumentResponse;
 
@@ -155,6 +158,7 @@ export class HomePage implements OnInit {
     this.valueInput = barcodes[0].displayValue;
 
     if (this.valueInput) {
+
       this.sendCodeToApi()
     }
   }
@@ -173,19 +177,20 @@ export class HomePage implements OnInit {
 
   sendCodeToApi() {
     this.isLoading = true
-    this.documentService.readDocument(this.valueInput)!.pipe(
+    if(this.valueInput) this.qrValue = this.valueInput
+    this.documentService.readDocument(this.qrValue)!.pipe(
       catchError(error => {
-        if(error.status === 404) {
+        if(error.status === 404 || error.message === "Document not found") {
+          this.document = {} as DocumentResponse
           presentToast('O documento não foi encontrado', 'short', 'top');
           this.isLoading = false
         }
 
         presentToast('Ocorreu um erro. Verifique o código ou chave e tente novamente.', 'short', 'top');
+        this.document = {} as DocumentResponse
         this.isLoading = false
         throw new Error('Ocorreu um erro ao ler o documento');
       })
-
-
     ).subscribe(
       result =>  {
         this.document = result as DocumentResponse
@@ -205,21 +210,25 @@ export class HomePage implements OnInit {
         }
 
         this.isLoading = false
+        this.valueInput = ''
       },
     )
   }
 
   sendCodeToApiByKey() {
     this.isLoading = true
-    this.documentService.readDocumentByKey(this.nfKey).pipe(
+    if(this.nfKey) this.NFvalue = this.nfKey
+    this.documentService.readDocumentByKey(this.NFvalue).pipe(
       catchError(error => {
         if(error.status === 404) {
           this.isLoading = false
+          this.document = {} as DocumentResponse
           presentToast('O documento não foi encontrado', 'short', 'top');
         }
 
         presentToast('Ocorreu um erro. Verifique o código ou chave e tente novamente.', 'short', 'top');
         this.isLoading = false
+        this.document = {} as DocumentResponse
         throw new Error('Ocorreu um erro')
       })
     ).subscribe(
@@ -240,6 +249,7 @@ export class HomePage implements OnInit {
         }
 
         this.isLoading = false
+        this.nfKey = ''
       })
   }
 
