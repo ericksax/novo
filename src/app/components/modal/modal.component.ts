@@ -6,6 +6,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { catchError } from 'rxjs';
 import { Platform } from '@ionic/angular';
 import { presentToast } from 'src/app/helpers/toast';
+import { EventService } from 'src/app/services/event.service';
+import { CommonModule } from '@angular/common';
 import {
   IonModal,
   IonHeader,
@@ -28,8 +30,6 @@ import {
   IonSelectOption,
   IonThumbnail
 } from '@ionic/angular/standalone'
-import { EventService } from 'src/app/services/event.service';
-import { CommonModule } from '@angular/common';
 const IMAGE_DIR = 'stored-images';
 
 interface LocalFile {
@@ -69,9 +69,9 @@ interface LocalFile {
 })
 export class ModalComponent  implements OnInit, AfterViewInit {
   @ViewChild('inputName', { static: false }) inputName!: IonInput;
-  formSendPhoto! : FormGroup;
-  @Input() documentId!: string
   @ViewChild(IonModal) modal!: IonModal;
+  @Input() documentId!: string
+  formSendPhoto! : FormGroup;
   imageUrl!: string;
   imagePath: any;
   images: LocalFile[] = [];
@@ -86,14 +86,14 @@ export class ModalComponent  implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     setTimeout(()=> {
       this.inputName?.setFocus();
-    }, 1800)
+    }, 2500)
   }
 
   async ngOnInit() {
     this.formSendPhoto = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      document: new FormControl('', [Validators.required, Validators.minLength(8)]),
-      // photo: new FormControl('', [Validators.required]),
+      document: new FormControl('', [Validators.required, Validators.minLength(6)]),
+      documentType: new FormControl('', [Validators.required]),
     })
 
     this.loadFiles();
@@ -122,6 +122,7 @@ export class ModalComponent  implements OnInit, AfterViewInit {
       const formData = new FormData();
       formData.append('recebedor_nome', this.formSendPhoto.value.name);
       formData.append('recebedor_documento', this.formSendPhoto.value.document);
+      formData.append('tipo_documento', this.formSendPhoto.value.documentType);
       formData.append('id', this.documentId);
       formData.append('file', blob, this.images[0].name);
       this.uploadData(formData)
@@ -152,7 +153,7 @@ export class ModalComponent  implements OnInit, AfterViewInit {
     const image = await Camera.getPhoto({
       quality: 90,
       resultType: CameraResultType.Uri,
-      source: CameraSource.Camera,
+      source: CameraSource.Prompt,
       promptLabelPicture: 'Tirar foto',
       promptLabelPhoto: 'Carregar imagem',
       promptLabelCancel: 'Cancelar',
@@ -160,17 +161,10 @@ export class ModalComponent  implements OnInit, AfterViewInit {
       presentationStyle: 'popover',
     });
 
-    // image.webPath will contain a path that can be set as an image src.
-    // You can access the original file using image.path, which can be
-    // passed to the Filesystem API to read the raw data of the image,
-    // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
-
-
     if(image ) {
       this.imageUrl = image.webPath!;
       this.saveImage(image)
     }
-    // Can be set to the src of an image now
   };
 
   async saveImage(photo: Photo) {
@@ -257,6 +251,7 @@ export class ModalComponent  implements OnInit, AfterViewInit {
   });
 
 // Upload the formData to our API
+// Deleta os arquivos do filesystem para que fique somente uma imagem
 
   async deletarArquivosFilesystem() {
     try {
