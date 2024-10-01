@@ -13,7 +13,7 @@
      <ion-card class="modal-card-info" id="gost-warning">
         <ion-card-content>
           <ion-card-title>Atenção</ion-card-title>
-          <p>Preencha os dados do recbedor corretamente e anexe a foto contendo o canhoto do documento.</p>
+          <p>Preencha os dados do recebedor corretamente e anexe a foto contendo o canhoto do documento.</p>
         </ion-card-content>
       </ion-card>
 
@@ -32,9 +32,9 @@
                 ></ion-input>
               </ion-item>
               <ion-item>
-                <ion-select label="Documento" placeholder="Selecione">
-                  <ion-select-option value="1">CPF</ion-select-option>
-                  <ion-select-option value="3">RG</ion-select-option>
+                <ion-select label="Documento" placeholder="Selecione" formControlName="documentType">
+                  <ion-select-option value=0>CPF</ion-select-option>
+                  <ion-select-option value=1>RG</ion-select-option>
                 </ion-select>
               </ion-item>
               <ion-item>
