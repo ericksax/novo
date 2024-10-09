@@ -35,6 +35,7 @@ import {
     IonInput,
   ],
 })
+
 export class LoginPage implements OnInit {
   loginForm!: FormGroup;
   password: string = '';
@@ -64,7 +65,10 @@ export class LoginPage implements OnInit {
   }
 
   submit() {
-    const { password, login } = this.loginForm.value;
+    const loginValues = this.loginForm.value;
+
+    const login = loginValues.login.trim()
+    const password = loginValues.password.trim()
 
     this.loginService
       .login(login, password)
