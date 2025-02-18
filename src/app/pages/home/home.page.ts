@@ -16,6 +16,7 @@ import {
   CapacitorBarcodeScanner,
   CapacitorBarcodeScannerAndroidScanningLibrary,
 } from '@capacitor/barcode-scanner';
+import { HeaderComponent } from 'src/app/components/header/header.component'
 
 import {
   IonModal,
@@ -84,6 +85,7 @@ import {
     SideMenuComponent,
     EmptyDocumentComponent,
     CommonModule,
+    HeaderComponent
   ],
 })
 export class HomePage implements OnInit {

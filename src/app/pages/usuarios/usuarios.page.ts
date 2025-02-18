@@ -1,4 +1,4 @@
-import { Component, OnInit, Signal, WritableSignal, signal } from '@angular/core';
+import { Component, OnInit, WritableSignal, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonBackButton, IonButtons} from '@ionic/angular/standalone';
@@ -6,7 +6,7 @@ import { CardUsuariosComponent } from 'src/app/components/cardUsuarios/card-usua
 import { UserService } from 'src/app/services/user.service';
 import { catchError } from 'rxjs';
 import { UserResponse } from 'src/app/types/user-request';
-
+import { HeaderComponent } from 'src/app/components/header/header.component'
 @Component({
   selector: 'app-usuarios',
   templateUrl: './usuarios.page.html',
@@ -21,7 +21,8 @@ import { UserResponse } from 'src/app/types/user-request';
     IonBackButton,
     CommonModule,
     FormsModule,
-    CardUsuariosComponent
+    CardUsuariosComponent,
+    HeaderComponent
    ]
 })
 export class UsuariosPage implements OnInit {

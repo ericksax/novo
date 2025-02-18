@@ -5,6 +5,7 @@ import { UserService } from 'src/app/services/user.service';
 import { catchError, of } from 'rxjs';
 import { presentToast } from 'src/app/helpers/toast';
 import { ActivatedRoute } from '@angular/router';
+import { HeaderComponent } from 'src/app/components/header/header.component'
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -42,6 +43,7 @@ import { UserResponse } from 'src/app/types/user-request';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    HeaderComponent
   ],
 })
 export class EditUserPage implements OnInit {

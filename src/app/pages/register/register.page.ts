@@ -10,13 +10,13 @@ import { ToastController } from '@ionic/angular';
 import { Observable, catchError, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { presentToast } from 'src/app/helpers/toast';
-
+import { HeaderComponent } from 'src/app/components/header/header.component'
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, MaskitoDirective]
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, MaskitoDirective, HeaderComponent]
 })
 
 export class RegisterPage implements OnInit {

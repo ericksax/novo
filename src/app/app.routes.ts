@@ -52,7 +52,12 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/edit-user/edit-user.page').then( m => m.EditUserPage)
   },
   {
+    path: 'fretes',
+    loadComponent: () => import('./pages/fretes/fretes.page').then( m => m.FretesPage)
+  },
+  {
     path: '**',
     redirectTo: 'notfound',
   },
+
 ];
